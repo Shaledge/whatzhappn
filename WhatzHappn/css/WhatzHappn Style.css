@@ -80,3 +80,31 @@ h1 {
   background-image: linear-gradient(to bottom, #3cb0fd, #b5c6d0);
   text-decoration: none;
 }
+
+.whTile {
+	border: thick #000;
+	border-style: double;
+	padding: 5px 5px 5px 5px;
+	width: 300px;
+}
+
+.border2 {
+	border: thin #000;
+	padding-top: 0px;
+	background-color: #54b948;
+	border-style: groove;
+}
+
+.border3 {
+	border: thin #000;
+	border-style: groove;
+}
+
+.monopolyLogo {
+	text-align:center;
+
+}
+
+.center {
+	text-align: center;
+}
