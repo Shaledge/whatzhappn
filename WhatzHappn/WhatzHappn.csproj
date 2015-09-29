@@ -49,6 +49,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\WhatzHappn Style.css" />
     <Content Include="Default.aspx" />
     <Content Include="images\WhatzHappn512x512.png" />
     <Content Include="Result.aspx" />
@@ -76,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="css\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.Debug.config">
