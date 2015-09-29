@@ -53,6 +53,7 @@
     <Content Include="Default.aspx" />
     <Content Include="images\WhatzHappn512x512.png" />
     <Content Include="Result.aspx" />
+    <Content Include="Scripts\JavaScript1.js" />
     <Content Include="Scripts\WhatzHappn.js" />
     <Content Include="Template\Result.html" />
     <Content Include="Template\Search.html" />
