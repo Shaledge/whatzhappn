@@ -107,6 +107,7 @@ namespace WhatzHappn
             try
             {
                 string sTitle = "";
+                string sHeaderColor = "TileHeaderBlue";
                 XPathDocument xDoc = new XPathDocument("http://xml.weather.yahoo.com/forecastrss?p=" + ZIPCode);
                 XPathNavigator xNavigator;
                 XmlNamespaceManager xNameSpace;
@@ -114,21 +115,13 @@ namespace WhatzHappn
                 XPathNavigator xNode;
                 
                 Image WeatherIcon = new Image();
-                WeatherIcon.CssClass = "ButtonIcon";
+                WeatherIcon.CssClass = "HeaderIcon";
                 WeatherIcon.ImageUrl = "images/" + "weather" + ".png";
                 
                 HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
                 SectionDIV.Attributes["class"] = "header";
-                SectionDIV.ID = "Weather";
-                //SectionDIV.di
-                HtmlGenericControl ContentDIV = new HtmlGenericControl("div");
-                SectionDIV.Attributes["class"] = "content";
                 SectionDIV.ID = "WeatherContent";
 
-                SectionDIV.Controls.Add(ContentDIV);
-
-
-                SectionDIV.Style.Add("display", "block");
 
                 xNavigator = xDoc.CreateNavigator();
 
@@ -139,18 +132,9 @@ namespace WhatzHappn
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    //sTitle = xNode.InnerXml.ToString();
-
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.InnerXml.ToString());
+                    
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.InnerXml.ToString(), sHeaderColor);
                 }
-
-                //TEMP
-                this.WHBody.Controls.Add(SectionDIV);
-
-
-
-
-
 
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:condition", xNameSpace);
 
@@ -158,9 +142,9 @@ namespace WhatzHappn
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    sTitle = xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f";
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sHeaderColor);
 
-                    sTitle = xNode.GetAttribute("text", xNameSpace.DefaultNamespace);
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor);
                 }
 
 
@@ -169,19 +153,22 @@ namespace WhatzHappn
                 while(xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    sTitle = "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace);
+                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sHeaderColor);
 
-                    sTitle = "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace);
+                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sHeaderColor);
                 }
+
 
                 //extended forcast
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:forecast", xNameSpace);
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    sTitle = xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace);
-
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor);
                 }
+
+                //Add everything to the body
+                this.WHBody.Controls.Add(SectionDIV);
             }
             catch (Exception ex)
             {
@@ -189,33 +176,34 @@ namespace WhatzHappn
             }
         }
 
-        private void AddContentTile(HtmlGenericControl ParentDIV, Image Icon, string Title, string Body)
+        private void AddContentTile(HtmlGenericControl ParentDIV, Image Icon, string Title, string Body, string HeaderColor)
         {
             try
             {
                 HtmlGenericControl WHTileDIV = new HtmlGenericControl("div");
                 WHTileDIV.Attributes["class"] = "whTile";
-                WHTileDIV.ID = "ContentTile" + NewGuid();
+                WHTileDIV.ID = "ContentTile_" + NewGuid();
 
                 HtmlGenericControl Border3DIV = new HtmlGenericControl("div");
                 Border3DIV.Attributes["class"] = "border3";
-                Border3DIV.ID = "Border3" + NewGuid();
+                Border3DIV.ID = "Border3_" + NewGuid();
 
                 WHTileDIV.Controls.Add(Border3DIV);
 
                 HtmlGenericControl Border2DIV = new HtmlGenericControl("div");
-                Border2DIV.Attributes["class"] = "border3";
-                Border2DIV.ID = "Border3" + NewGuid();
+                Border2DIV.Attributes["class"] = "TileHeader " + HeaderColor;
+                Border2DIV.ID = "TileHeader_" + NewGuid();
 
                 Border3DIV.Controls.Add(Border2DIV);
 
                 if (Icon != null)
                 {
                     HtmlGenericControl IconParagraph = new HtmlGenericControl("p");
-                    IconParagraph.Attributes["class"] = "monopolyLogo";
+                    IconParagraph.Attributes["class"] = "Icon";
                     IconParagraph.ID = "IconParagraph" + NewGuid();
 
                     IconParagraph.Controls.Add(Icon);
+                    Border2DIV.Controls.Add(IconParagraph);
                 }
                 else
                 {
@@ -229,7 +217,7 @@ namespace WhatzHappn
 
                 HtmlGenericControl BodyParagraph = new HtmlGenericControl("p");
                 BodyParagraph.Attributes["class"] = "center";
-                BodyParagraph.ID = "BodyParagraph" + NewGuid();
+                BodyParagraph.ID = "BodyParagraph_" + NewGuid();
                 BodyParagraph.InnerText = Body;
 
                 WHTileDIV.Controls.Add(BodyParagraph);
