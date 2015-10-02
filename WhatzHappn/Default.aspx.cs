@@ -10,11 +10,11 @@ using System.Xml;
 using System.Xml.XPath;
 
 //Twitter
-using Spring.Social.OAuth1;
-using Spring.Social.Twitter.Api;
-using Spring.Social.Twitter.Connect;
-using Spring.Rest.Client;
-using Spring.Social.Twitter.Api.Impl;
+//using Spring.Social.OAuth1;
+//using Spring.Social.Twitter.Api;
+//using Spring.Social.Twitter.Connect;
+//using Spring.Rest.Client;
+//using Spring.Social.Twitter.Api.Impl;
 
 
 namespace WhatzHappn
@@ -227,7 +227,7 @@ namespace WhatzHappn
                 string consumerSecret = "..."; // The application's consumer secret
                 string accessToken = "..."; // The access token granted after OAuth authorization
                 string accessTokenSecret = "..."; // The access token secret granted after OAuth authorization
-                ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+               /* ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);*/
 
                 //ISearchOperations search = new ISearchOperations();
 

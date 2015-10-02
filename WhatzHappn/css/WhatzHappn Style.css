@@ -1,26 +1,31 @@
 ﻿body {
 	background: #171c3c;
 	margin: 0;
+	padding: 0;
 }
+
 .header {
     position: relative;
-    top: 7px;
-    
-	width: 100%;
+    top: 5px;
+    left: 1%;
+	width: 98%;
 	height: 800px;
 	min-width: 440px;
 	background-image: url("../images/Classical.jpg");
 	padding: 30px 0px 0px 0px;
-}
+    border-radius: 25px;
+    margin-top:10px;
+    }
+
 h1 {
-	text-align: center;
-	padding-right: 0px;
+	padding-left: 220px;
 	font-family: 'Rye', cursive;
-	font-size: 50px;
+	font-size: 65px;
 	color: #FFF;
-	letter-spacing: 3px;
+	letter-spacing: 4px;
 	text-transform: uppercase;
 }
+
 .map {
 	width: 500px;
 	height: 400px;
@@ -30,21 +35,24 @@ h1 {
 	right: 330px;
 	overflow: visible;
 }
+
 .text {
 	width: 300px;
 	padding-bottom: 40px;
 	padding-top: 50px;
-	padding-left: 210px;
+	padding-left: 220px;
 	text-align:right;
 	font-family: 'Piedra', cursive;
-	font-size: 20px;
-	line-height: 28px;
+	font-size: 24px;
+	line-height: 32px;
 	color: #FFF;
     letter-spacing: 1px;
 }
+
 #button {
 	padding-left: 350px;
 }
+
 .btn {
   background: #b5c6d0;
   background-image: -webkit-linear-gradient(top, #b5c6d0, #2980b9);
@@ -61,6 +69,7 @@ h1 {
   padding: 15px 30px 15px 30px;
   text-decoration: none;
 }
+
 .btn:hover {
   background: #3cb0fd;
   background-image: -webkit-linear-gradient(top, #3cb0fd, #b5c6d0);
@@ -70,65 +79,62 @@ h1 {
   background-image: linear-gradient(to bottom, #3cb0fd, #b5c6d0);
   text-decoration: none;
 }
+
+#WeatherContent {
+   padding-top: 5px;
+   padding-bottom: 5px;
+   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e2444+1,111629+9,1e2444+15,111629+37,1e2444+57,111629+77,1e2444+88,111629+100 */
+background: rgb(30,36,68); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(30,36,68,1) 1%, rgba(17,22,41,1) 9%, rgba(30,36,68,1) 15%, rgba(17,22,41,1) 37%, rgba(30,36,68,1) 57%, rgba(17,22,41,1) 77%, rgba(30,36,68,1) 88%, rgba(17,22,41,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(1%,rgba(30,36,68,1)), color-stop(9%,rgba(17,22,41,1)), color-stop(15%,rgba(30,36,68,1)), color-stop(37%,rgba(17,22,41,1)), color-stop(57%,rgba(30,36,68,1)), color-stop(77%,rgba(17,22,41,1)), color-stop(88%,rgba(30,36,68,1)), color-stop(100%,rgba(17,22,41,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  rgba(30,36,68,1) 1%,rgba(17,22,41,1) 9%,rgba(30,36,68,1) 15%,rgba(17,22,41,1) 37%,rgba(30,36,68,1) 57%,rgba(17,22,41,1) 77%,rgba(30,36,68,1) 88%,rgba(17,22,41,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  rgba(30,36,68,1) 1%,rgba(17,22,41,1) 9%,rgba(30,36,68,1) 15%,rgba(17,22,41,1) 37%,rgba(30,36,68,1) 57%,rgba(17,22,41,1) 77%,rgba(30,36,68,1) 88%,rgba(17,22,41,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  rgba(30,36,68,1) 1%,rgba(17,22,41,1) 9%,rgba(30,36,68,1) 15%,rgba(17,22,41,1) 37%,rgba(30,36,68,1) 57%,rgba(17,22,41,1) 77%,rgba(30,36,68,1) 88%,rgba(17,22,41,1) 100%); /* IE10+ */
+background: linear-gradient(135deg,  rgba(30,36,68,1) 1%,rgba(17,22,41,1) 9%,rgba(30,36,68,1) 15%,rgba(17,22,41,1) 37%,rgba(30,36,68,1) 57%,rgba(17,22,41,1) 77%,rgba(30,36,68,1) 88%,rgba(17,22,41,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e2444', endColorstr='#111629',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
 .whTile {
 	border: thick #000;
 	border-style: double;
-	padding: 0px 4px 0px 4px;
-	width: 300px;
-    border-radius: 7px;
-    background-color: #FFF;
+	padding: 5px 5px 0px 5px;
+	width: 350px;
+    background-color: white;
+    float: left;
+    margin-left: 70px;
+    margin-top: 15px;
 }
-.border2 {
+
+.TileHeader {
 	border: thin #000;
 	padding-top: 0px;
-	background-color: #0067ac;
 	border-style: groove;
-    border-radius: 7px;
-
+    height: 100px;
 }
+
+.TileHeaderBlue {
+	background-color: blue;
+}
+
 .border3 {
-	/*border: thin #000;*/
-	/*border-style: groove;*/
+	border: thin #000;
+	border-style: groove;
 }
 
-.monopolyLogo {
-	text-align:center;
+.Icon {
+	position: relative;
+    bottom: 30px;
+    left: 110px;
 }
+
+.HeaderIcon {
+    width: 128px;
+    height: 128px;
+}
+
 .center {
 	text-align: center;
-}
-#weather {
-	width: 100%;
-    padding-top: 20px;
-    padding-left: 15px;
-}
-#news {
-	width: 100%;
-	padding-top: 20px;
-    padding-left: 15px;
-}
-#twitter {
-	width: 100%;
-	padding-top: 20px;
-    padding-left: 15px;
-}
-
-.monopolyimg {
-	width: 50px;
-	padding: 0px 0px;
-}
-.weatherSection {
-    background-color: #FFF;
-    padding-top: 30px;
-    display: none;
-}
-.twitterSection {
-    background-color: #FFF;
-    padding-top: 30px;
-    display: none;
-}
-.newsSection {
-    background-color: #FFF;
-    padding-top: 30px;
-    display: none;
+    font-family: 'Piedra', cursive;
+    font-size: 19px;
 }
