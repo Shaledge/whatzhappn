@@ -9,6 +9,14 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.XPath;
 
+//Twitter
+using Spring.Social.OAuth1;
+using Spring.Social.Twitter.Api;
+using Spring.Social.Twitter.Connect;
+using Spring.Rest.Client;
+using Spring.Social.Twitter.Api.Impl;
+
+
 namespace WhatzHappn
 {
     public class IPInfo
@@ -29,7 +37,7 @@ namespace WhatzHappn
         {
             try
             {
-                this.Title = "Whatz Happn: Version 0.002";
+                this.Title = "Whatz Happn: Version 0.007";
                 string sIPAddress = GetIPAddress();
                 sIPAddress = "71.125.17.29";  //TEMP for development
                 
@@ -38,11 +46,17 @@ namespace WhatzHappn
                 {
                     IPInfo ipInfo = GetIPInfo(sIPAddress);
 
-                    GetWeather(ipInfo.postal);
+                    string[] sLocation = ipInfo.loc.ToString().Split(',');
+                    string sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
+                    this.googlemap.Attributes.Add("src", sMapSource);
+                    
+                    GetWeather(ipInfo);
+
+                    //GetTwitter(ipInfo);
                 }
                 else
                 {
-                    //Inform user we cannot get location.
+                    //TODO: Inform user we cannot get location.
                 }
             }
             catch (Exception ex)
@@ -127,26 +141,16 @@ namespace WhatzHappn
             {
                 string json = client.DownloadString(URL);
                 IPInfo ipinfo = new JavaScriptSerializer().Deserialize<IPInfo>(json);
-                /*
-                this.WHBody.InnerText = "IP is : " + ipinfo.ip + "<br> Host Name is : " + ipinfo.hostname
-                + "<br> Host Name is : " + ipinfo.hostname
-                + "<br> City Name is : " + ipinfo.city
-                + "<br> Region Name is : " + ipinfo.region
-                + "<br> Country Name is : " + ipinfo.country
-                + "<br> Loc Name is : " + ipinfo.loc
-                + "<br> Postal Name is : " + ipinfo.postal;
-                */
                 return ipinfo;
             }
         }
 
-        private void GetWeather(string ZIPCode)
+        private void GetWeather(IPInfo ipInfo)
         {
             try
             {
-                string sTitle = "";
                 string sHeaderColor = "TileHeaderBlue";
-                XPathDocument xDoc = new XPathDocument("http://xml.weather.yahoo.com/forecastrss?p=" + ZIPCode);
+                XPathDocument xDoc = new XPathDocument("http://xml.weather.yahoo.com/forecastrss?p=" + ipInfo.postal);
                 XPathNavigator xNavigator;
                 XmlNamespaceManager xNameSpace;
                 XPathNodeIterator xNodes;
@@ -204,6 +208,42 @@ namespace WhatzHappn
                     xNode = xNodes.Current;
                     AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor);
                 }
+
+                //Add everything to the body
+                this.WHBody.Controls.Add(SectionDIV);
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
+
+        private void GetTwitter(IPInfo ipInfo)
+        {
+            try
+            {
+                
+                string consumerKey = "..."; // The application's consumer key
+                string consumerSecret = "..."; // The application's consumer secret
+                string accessToken = "..."; // The access token granted after OAuth authorization
+                string accessTokenSecret = "..."; // The access token secret granted after OAuth authorization
+                ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+
+                //ISearchOperations search = new ISearchOperations();
+
+
+      
+
+                Image WeatherIcon = new Image();
+                WeatherIcon.CssClass = "HeaderIcon";
+                WeatherIcon.ImageUrl = "images/" + "twitter" + ".png";
+
+                HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
+                SectionDIV.Attributes["class"] = "header";
+                SectionDIV.ID = "TwitterContent";
+
+
+
 
                 //Add everything to the body
                 this.WHBody.Controls.Add(SectionDIV);

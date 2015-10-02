@@ -23,9 +23,16 @@
         </div>
 
         <div class="map">
-            <!-- iframe caues issue-->
+            <iframe id="googlemap" src="https://www.google.com/maps/embed?q=-37.866963,144.980615" width="500" height="450" runat="server" ></iframe>
         </div>
     </div>
+
+
+
+
+
+
+
 
 </body>
 </html>
