@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -9,19 +11,34 @@ using System.Xml.XPath;
 
 namespace WhatzHappn
 {
+    public class IPInfo
+    {
+        public string ip { get; set; }
+        public string hostname { get; set; }
+        public string city { get; set; }
+        public string region { get; set; }
+        public string country { get; set; }
+        public string loc { get; set; }
+        public string org { get; set; }
+        public string postal { get; set; }
+    }
+
     public partial class _Default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
+                this.Title = "Whatz Happn: Version 0.002";
                 string sIPAddress = GetIPAddress();
-                string sZIPCode = "10001";
+                sIPAddress = "71.125.17.29";  //TEMP for development
+                
 
-                this.Title = "Version 0.001";
                 if (IsValidIP(sIPAddress) == true)
                 {
-                    GetWeather(sZIPCode);
+                    IPInfo ipInfo = GetIPInfo(sIPAddress);
+
+                    GetWeather(ipInfo.postal);
                 }
                 else
                 {
@@ -101,6 +118,26 @@ namespace WhatzHappn
             }
 
             return bReturn; 
+        }
+
+        public IPInfo GetIPInfo(string IPAddress)
+        {
+            string URL = "http://ipinfo.io/" + IPAddress;
+            using (WebClient client = new WebClient())
+            {
+                string json = client.DownloadString(URL);
+                IPInfo ipinfo = new JavaScriptSerializer().Deserialize<IPInfo>(json);
+                /*
+                this.WHBody.InnerText = "IP is : " + ipinfo.ip + "<br> Host Name is : " + ipinfo.hostname
+                + "<br> Host Name is : " + ipinfo.hostname
+                + "<br> City Name is : " + ipinfo.city
+                + "<br> Region Name is : " + ipinfo.region
+                + "<br> Country Name is : " + ipinfo.country
+                + "<br> Loc Name is : " + ipinfo.loc
+                + "<br> Postal Name is : " + ipinfo.postal;
+                */
+                return ipinfo;
+            }
         }
 
         private void GetWeather(string ZIPCode)
@@ -235,6 +272,7 @@ namespace WhatzHappn
         {
             return Guid.NewGuid().ToString().Replace("-", "");
         }
+
         private void logException(Exception ex)
         {
             Console.WriteLine(ex.Message);
