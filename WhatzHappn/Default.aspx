@@ -6,7 +6,7 @@
 <head runat="server">
     <title>What'z Happn</title>
     <link href='https://fonts.googleapis.com/css?family=Piedra|Rye|Sarina|Jacques+Francois+Shadow' rel='stylesheet' type='text/css' />
-    <link href="../css/WhatzHappn Style.css" rel="stylesheet" type="text/css" />
+    <link href="css/WhatzHappn Style.css" rel="stylesheet" type="text/css" />
 </head>
 <body runat="server" id="WHBody">
 
@@ -19,11 +19,11 @@
         </div>
 
         <div id="button">
-            <!-- iframe caues issue-->
+            
         </div>
 
         <div class="map">
-            
+            <!-- iframe caues issue-->
         </div>
     </div>
 

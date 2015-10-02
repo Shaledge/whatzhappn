@@ -18,6 +18,7 @@ namespace WhatzHappn
                 string sIPAddress = GetIPAddress();
                 string sZIPCode = "10001";
 
+                this.Title = "Version 0.001";
                 if (IsValidIP(sIPAddress) == true)
                 {
                     GetWeather(sZIPCode);
@@ -99,7 +100,7 @@ namespace WhatzHappn
                 logException(ex);
             }
 
-            return true; // bReturn; //TEMP TODO: remove for production
+            return bReturn; 
         }
 
         private void GetWeather(string ZIPCode)
