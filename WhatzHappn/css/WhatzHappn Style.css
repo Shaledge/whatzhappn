@@ -1,30 +1,58 @@
 ﻿body {
-	background: #171c3c;
+	background: #FFF;
 	margin: 0;
 	padding: 0;
 }
 
 .header {
     position: relative;
-    top: 5px;
-    left: 1%;
-	width: 98%;
-	height: 700px;
+    width: 100%;
+	height: 800px;
 	min-width: 440px;
 	background-image: url("../images/Classical.jpg");
 	padding: 30px 0px 0px 0px;
-    border-radius: 25px;
-    margin-top:10px;
-    }
+}
 
 h1 {
-	text-align: center;
-	padding-right: 0px;
+	padding-left: 220px;
 	font-family: 'Rye', cursive;
-	font-size: 50px;
+	font-size: 65px;
 	color: #FFF;
-	letter-spacing: 3px;
+	letter-spacing: 4px;
 	text-transform: uppercase;
+    -webkit-animation-duration: 1s; 
+    animation-duration: 1s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+
+@-webkit-keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateY(-20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateY(0); 
+    } 
+} 
+
+@keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+} 
+
+.fadeInDown { 
+    -webkit-animation-name: fadeInDown; 
+    animation-name: fadeInDown; 
 }
 
 .map {
@@ -33,82 +61,155 @@ h1 {
 	float: left;
 	position: absolute;
 	top: 200px;
-	right: 330px;
-	overflow: visible;
+	right: 300px;
+    -webkit-animation-duration: 3s; 
+    animation-duration: 3s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+
+@-webkit-keyframes fadeInRight { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateX(20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateX(0); 
+    } 
+} 
+@keyframes fadeInRight { 
+    0% { 
+        opacity: 0; 
+        transform: translateX(20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateX(0); 
+    } 
+} 
+.fadeInRight { 
+    -webkit-animation-name: fadeInRight; 
+    animation-name: fadeInRight; 
 }
 
 .text {
-	width: 300px;
-	padding-bottom: 40px;
-	padding-top: 50px;
-	padding-left: 260px;
-	text-align:right;
+	width: 350px;
+	padding-left: 200px;
+	text-align: right;
 	font-family: 'Piedra', cursive;
-	font-size: 20px;
-	line-height: 28px;
+	font-size: 21px;
+	line-height: 24px;
 	color: #FFF;
     letter-spacing: 1px;
+     -webkit-animation-duration: 2s; 
+    animation-duration: 2s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+
+@-webkit-keyframes fadeInLeft { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateX(-20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateX(0); 
+    } 
+} 
+@keyframes fadeInLeft { 
+    0% { 
+        opacity: 0; 
+        transform: translateX(-20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateX(0); 
+    } 
+} 
+.fadeInLeft { 
+    -webkit-animation-name: fadeInLeft; 
+    animation-name: fadeInLeft; 
 }
 
-#button {
-	padding-left: 350px;
-	
-}
 
-.btn {
-  background: #b5c6d0;
-  background-image: -webkit-linear-gradient(top, #b5c6d0, #2980b9);
-  background-image: -moz-linear-gradient(top, #b5c6d0, #2980b9);
-  background-image: -ms-linear-gradient(top, #b5c6d0, #2980b9);
-  background-image: -o-linear-gradient(top, #b5c6d0, #2980b9);
-  background-image: linear-gradient(to bottom, #b5c6d0, #2980b9);
-  -webkit-border-radius: 25;
-  -moz-border-radius: 25;
-  border-radius: 25px;
-  font-family: 'Jacques Francois Shadow', cursive;
-  color: #ffffff;
-  font-size: 30px;
-  padding: 15px 30px 15px 30px;
-  text-decoration: none;
-}
-
-.btn:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #b5c6d0);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #b5c6d0);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #b5c6d0);
-  background-image: -o-linear-gradient(top, #3cb0fd, #b5c6d0);
-  background-image: linear-gradient(to bottom, #3cb0fd, #b5c6d0);
-  text-decoration: none;
+#WeatherContent {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bee3ea+0,e0f3fa+10,d8f0fc+90,bee3ea+100 */
+    background: rgb(190,227,234); /* Old browsers */
+    background: -moz-linear-gradient(-45deg, rgba(190,227,234,1) 0%, rgba(224,243,250,1) 10%, rgba(216,240,252,1) 90%, rgba(190,227,234,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(190,227,234,1)), color-stop(10%,rgba(224,243,250,1)), color-stop(90%,rgba(216,240,252,1)), color-stop(100%,rgba(190,227,234,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* IE10+ */
+    background: linear-gradient(135deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bee3ea', endColorstr='#bee3ea',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .whTile {
 	border: thick #000;
 	border-style: double;
-	padding: 5px 5px 5px 5px;
-	width: 250px;
-    background-color:white;
+	padding: 5px 5px 0px 5px;
+	width: 300px;
+    float: left;
+    margin-left: 70px;
+    margin-top: 15px;
+    background-color: #FFF;
+   -webkit-animation-duration: 3.0s; 
+    animation-duration: 3.0s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+}
+
+.whTileHeightSmall {
+    height: 180px;
+}
+
+@-webkit-keyframes fadeIn { 
+    0% {opacity: 0;} 
+    100% {opacity: 1;} 
+} 
+@keyframes fadeIn { 
+    0% {opacity: 0;} 
+    100% {opacity: 1;} 
+} 
+.fadeIn { 
+    -webkit-animation-name: fadeIn; 
+    animation-name: fadeIn; 
 }
 
 .TileHeader {
 	border: thin #000;
 	padding-top: 0px;
 	border-style: groove;
-    height:100px;
+    height: 100px;
+    background-image: url('../images/light-green-texture-background.jpg');
+    opacity: 1.0;
 }
 
 .TileHeaderBlue {
-	background-color: blue;
+    background-color: blue;
+    border-radius: 7px;
 }
 
 .border3 {
 	border: thin #000;
 	border-style: groove;
+    border-radius: 7px;
 }
 
 .Icon {
-	text-align:center;
-    height: 128px;
+	position: relative;
+    bottom: 30px;
+    left: 110px;
 }
 
 .HeaderIcon {
@@ -118,4 +219,6 @@ h1 {
 
 .center {
 	text-align: center;
+    font-family: 'Piedra', cursive;
+    font-size: 19px;
 }

@@ -8,13 +8,14 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.XPath;
+using System.IO;
 
 //Twitter
-using Spring.Social.OAuth1;
-using Spring.Social.Twitter.Api;
-using Spring.Social.Twitter.Connect;
-using Spring.Rest.Client;
-using Spring.Social.Twitter.Api.Impl;
+//using Spring.Social.OAuth1;
+//using Spring.Social.Twitter.Api;
+//using Spring.Social.Twitter.Connect;
+//using Spring.Rest.Client;
+//using Spring.Social.Twitter.Api.Impl;
 
 
 namespace WhatzHappn
@@ -52,7 +53,9 @@ namespace WhatzHappn
                     
                     GetWeather(ipInfo);
 
-                    //GetTwitter(ipInfo);
+                    GetTwitter(ipInfo);
+
+                    
                 }
                 else
                 {
@@ -134,7 +137,7 @@ namespace WhatzHappn
             return bReturn; 
         }
 
-        public IPInfo GetIPInfo(string IPAddress)
+        private IPInfo GetIPInfo(string IPAddress)
         {
             string URL = "http://ipinfo.io/" + IPAddress;
             using (WebClient client = new WebClient())
@@ -145,11 +148,37 @@ namespace WhatzHappn
             }
         }
 
+        
+        private string Getkeys(string Name)
+        {
+            string sReturn = "";
+
+            try
+            {
+                string sPath = HttpContext.Current.Server.MapPath("~/App_Data/" + Name + ".txt");
+
+                if (File.Exists(sPath) == true)
+                {
+                    using (StreamReader sr = new StreamReader(sPath))
+                    {
+                        sReturn = sr.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+
+            return sReturn;
+        }
         private void GetWeather(IPInfo ipInfo)
         {
             try
             {
                 string sHeaderColor = "TileHeaderBlue";
+                string sTileHeight = "whTileHeightSmall";
+                double dSeconds = 3.0;
                 XPathDocument xDoc = new XPathDocument("http://xml.weather.yahoo.com/forecastrss?p=" + ipInfo.postal);
                 XPathNavigator xNavigator;
                 XmlNamespaceManager xNameSpace;
@@ -163,7 +192,7 @@ namespace WhatzHappn
                 HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
                 SectionDIV.Attributes["class"] = "header";
                 SectionDIV.ID = "WeatherContent";
-
+                
 
                 xNavigator = xDoc.CreateNavigator();
 
@@ -174,8 +203,8 @@ namespace WhatzHappn
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.InnerXml.ToString(), sHeaderColor);
+
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.InnerXml.ToString(), sHeaderColor, sTileHeight);
                 }
 
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:condition", xNameSpace);
@@ -183,10 +212,12 @@ namespace WhatzHappn
                 //Basic: Temp and Condition
                 while (xNodes.MoveNext())
                 {
+                    dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sHeaderColor);
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sHeaderColor, sTileHeight);
 
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor);
+                    dSeconds += 0.05;
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
                 }
 
 
@@ -195,9 +226,9 @@ namespace WhatzHappn
                 while(xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sHeaderColor);
+                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
 
-                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sHeaderColor);
+                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
                 }
 
 
@@ -205,8 +236,9 @@ namespace WhatzHappn
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:forecast", xNameSpace);
                 while (xNodes.MoveNext())
                 {
+                    dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor);
+                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
                 }
 
                 //Add everything to the body
@@ -222,12 +254,13 @@ namespace WhatzHappn
         {
             try
             {
-                
+                string sKeys = Getkeys("Twitter");
+
                 string consumerKey = "..."; // The application's consumer key
                 string consumerSecret = "..."; // The application's consumer secret
                 string accessToken = "..."; // The access token granted after OAuth authorization
                 string accessTokenSecret = "..."; // The access token secret granted after OAuth authorization
-                ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+               /* ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);*/
 
                 //ISearchOperations search = new ISearchOperations();
 
@@ -254,12 +287,21 @@ namespace WhatzHappn
             }
         }
 
-        private void AddContentTile(HtmlGenericControl ParentDIV, Image Icon, string Title, string Body, string HeaderColor)
+        private void AddContentTile(
+            HtmlGenericControl ParentDIV, 
+            Image Icon, 
+            string Title, 
+            string Body, 
+            string HeaderColor, 
+            string TileHeight)
         {
             try
             {
+                //,            double Seconds
                 HtmlGenericControl WHTileDIV = new HtmlGenericControl("div");
-                WHTileDIV.Attributes["class"] = "whTile";
+                WHTileDIV.Attributes["class"] = "whTile animated fadeIn " + TileHeight;
+                //WHTileDIV.Attributes["class"].Parameter.Value = Seconds
+
                 WHTileDIV.ID = "ContentTile_" + NewGuid();
 
                 HtmlGenericControl Border3DIV = new HtmlGenericControl("div");
