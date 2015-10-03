@@ -259,7 +259,7 @@ namespace WhatzHappn
             try
             {
                 HtmlGenericControl WHTileDIV = new HtmlGenericControl("div");
-                WHTileDIV.Attributes["class"] = "whTile";
+                WHTileDIV.Attributes["class"] = "whTile animated fadeIn";
                 WHTileDIV.ID = "ContentTile_" + NewGuid();
 
                 HtmlGenericControl Border3DIV = new HtmlGenericControl("div");
