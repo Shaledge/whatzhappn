@@ -77,8 +77,6 @@
     <Content Include="Default.aspx" />
     <Content Include="images\black_loop_background.jpg" />
     <Content Include="images\bokeh_lights.jpg" />
-    <Content Include="images\Classical.jpg" />
-    <Content Include="images\light-green-texture-background.jpg" />
     <Content Include="images\Line.jpg" />
     <Content Include="images\pattern_background.jpg" />
     <Content Include="images\weather.png" />
