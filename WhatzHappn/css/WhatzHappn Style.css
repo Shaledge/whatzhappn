@@ -2,6 +2,7 @@
 	background: #FFF;
 	margin: 0;
 	padding: 0;
+    background: url("../images/bokeh_lights.jpg") no-repeat center center fixed;
 }
 
 .header {
@@ -9,16 +10,33 @@
     width: 100%;
 	height: 800px;
 	min-width: 440px;
-	background-image: url("../images/Classical.jpg");
-	padding: 30px 0px 0px 0px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 30px 0px 0px 0px;
+}
+
+.whlogo {
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    width: 200px;
+    -webkit-animation-duration: 2s; 
+    animation-duration: 2s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
 }
 
 h1 {
-	padding-left: 220px;
-	font-family: 'Rye', cursive;
+	text-align:center;
+    padding-left: 20px;
+	font-family: 'Frijole', cursive;
 	font-size: 65px;
 	color: #FFF;
-	letter-spacing: 4px;
+	letter-spacing: 8px;
 	text-transform: uppercase;
     -webkit-animation-duration: 1s; 
     animation-duration: 1s; 
@@ -55,53 +73,24 @@ h1 {
     animation-name: fadeInDown; 
 }
 
-.map {
-	width: 500px;
-	height: 400px;
-	float: left;
-	position: absolute;
-	top: 200px;
-	right: 300px;
-    -webkit-animation-duration: 3s; 
-    animation-duration: 3s; 
-    -webkit-animation-fill-mode: both; 
-    animation-fill-mode: both; 
-    -webkit-animation-timing-function: linear; 
-    animation-timing-function: linear; 
-} 
-
-@-webkit-keyframes fadeInRight { 
-    0% { 
-        opacity: 0; 
-        -webkit-transform: translateX(20px); 
-    } 
-    100% { 
-        opacity: 1; 
-        -webkit-transform: translateX(0); 
-    } 
-} 
-@keyframes fadeInRight { 
-    0% { 
-        opacity: 0; 
-        transform: translateX(20px); 
-    } 
-    100% { 
-        opacity: 1; 
-        transform: translateX(0); 
-    } 
-} 
-.fadeInRight { 
-    -webkit-animation-name: fadeInRight; 
-    animation-name: fadeInRight; 
+/*text container settings*/
+.textContainer {
+    padding: 40px 5px 5px 5px;
+    height: 440px;
+    margin: 10px 20px;
+    opacity: 0.9;
+    background-color: black;
 }
 
+/*text font settings*/
 .text {
 	width: 350px;
-	padding-left: 200px;
-	text-align: right;
+	padding-left: 80px;
+    padding-top: 20px;
+    text-align: right;
 	font-family: 'Piedra', cursive;
-	font-size: 21px;
-	line-height: 24px;
+	font-size: 20px;
+	line-height: 32px;
 	color: #FFF;
     letter-spacing: 1px;
      -webkit-animation-duration: 2s; 
@@ -137,26 +126,113 @@ h1 {
     animation-name: fadeInLeft; 
 }
 
+/*line settings*/
+#line {
+    position: absolute;
+    top: 260px;
+    left: 510px;
+    height: 350px
 
-#WeatherContent {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bee3ea+0,e0f3fa+10,d8f0fc+90,bee3ea+100 */
-    background: rgb(190,227,234); /* Old browsers */
-    background: -moz-linear-gradient(-45deg, rgba(190,227,234,1) 0%, rgba(224,243,250,1) 10%, rgba(216,240,252,1) 90%, rgba(190,227,234,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(190,227,234,1)), color-stop(10%,rgba(224,243,250,1)), color-stop(90%,rgba(216,240,252,1)), color-stop(100%,rgba(190,227,234,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* IE10+ */
-    background: linear-gradient(135deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bee3ea', endColorstr='#bee3ea',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
+/*google map image settings*/
+#googlemap {
+    width: 750px;
+    height: 400px;
+}
+
+/*google map div settings*/
+.map {
+	width: 500px;
+	height: 400px;
+	float: left;
+	position: absolute;
+	top: 225px;
+	right: 350px;
+    -webkit-animation-duration: 3s; 
+    animation-duration: 3s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+@-webkit-keyframes fadeInRight { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateX(20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateX(0); 
+    } 
+} 
+@keyframes fadeInRight { 
+    0% { 
+        opacity: 0; 
+        transform: translateX(20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateX(0); 
+    } 
+} 
+.fadeInRight { 
+    -webkit-animation-name: fadeInRight; 
+    animation-name: fadeInRight; 
+}
+
+
+/*Rose and Wallace*/
+.signature {
+    font-family: 'Sarina', cursive;
+    color: white;
+    font-size: 20px;
+    text-align: right;
+    padding-right: 100px;
+     -webkit-animation-duration: 3s; 
+    animation-duration: 3s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+@-webkit-keyframes fadeInRight { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateX(20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateX(0); 
+    } 
+} 
+@keyframes fadeInRight { 
+    0% { 
+        opacity: 0; 
+        transform: translateX(20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateX(0); 
+    } 
+} 
+
+/*Weather Section styles*/
+
+
+#WeatherContent {
+    background: url("../images/black_loop_background.jpg");
+    opacity: 0.95;
+    height: 830px;
+    padding-top: 80px;
+}
+
+/*monopoly card settings*/
 .whTile {
 	border: thick #000;
 	border-style: double;
 	padding: 5px 5px 0px 5px;
-	width: 300px;
+	width: 350px;
     float: left;
     margin-left: 70px;
     margin-top: 15px;
@@ -167,10 +243,7 @@ h1 {
     animation-fill-mode: both; 
     -webkit-animation-timing-function: linear; 
     animation-timing-function: linear; 
-}
-
-.whTileHeightSmall {
-    height: 180px;
+    border-radius: 7px;
 }
 
 @-webkit-keyframes fadeIn { 
@@ -191,8 +264,6 @@ h1 {
 	padding-top: 0px;
 	border-style: groove;
     height: 100px;
-    background-image: url('../images/light-green-texture-background.jpg');
-    opacity: 1.0;
 }
 
 .TileHeaderBlue {
@@ -210,11 +281,13 @@ h1 {
 	position: relative;
     bottom: 30px;
     left: 110px;
+   
 }
 
 .HeaderIcon {
     width: 128px;
     height: 128px;
+
 }
 
 .center {
@@ -222,3 +295,6 @@ h1 {
     font-family: 'Piedra', cursive;
     font-size: 19px;
 }
+
+
+
