@@ -11,11 +11,7 @@ using System.Xml.XPath;
 using System.IO;
 
 //Twitter
-//using Spring.Social.OAuth1;
-//using Spring.Social.Twitter.Api;
-//using Spring.Social.Twitter.Connect;
-//using Spring.Rest.Client;
-//using Spring.Social.Twitter.Api.Impl;
+
 
 
 namespace WhatzHappn
@@ -47,15 +43,13 @@ namespace WhatzHappn
                 {
                     IPInfo ipInfo = GetIPInfo(sIPAddress);
 
-                    string[] sLocation = ipInfo.loc.ToString().Split(',');
-                    string sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
-                    this.googlemap.Attributes.Add("src", sMapSource);
-                    
+                    GetMap(ipInfo);
+
                     GetWeather(ipInfo);
 
                     GetTwitter(ipInfo);
 
-                    
+                    GetWikipedia(ipInfo);
                 }
                 else
                 {
@@ -148,7 +142,6 @@ namespace WhatzHappn
             }
         }
 
-        
         private string Getkeys(string Name)
         {
             string sReturn = "";
@@ -172,6 +165,21 @@ namespace WhatzHappn
 
             return sReturn;
         }
+
+        private void GetMap(IPInfo ipInfo)
+        {
+            try
+            {
+                string[] sLocation = ipInfo.loc.ToString().Split(',');
+                string sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
+                this.googlemap.Attributes.Add("src", sMapSource);
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
+
         private void GetWeather(IPInfo ipInfo)
         {
             try
@@ -280,6 +288,22 @@ namespace WhatzHappn
 
                 //Add everything to the body
                 this.WHBody.Controls.Add(SectionDIV);
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
+
+        private void GetWikipedia(IPInfo ipInfo)
+        {
+            try
+            {
+                string[] sLocation = ipInfo.loc.ToString().Split(',');
+                string sURL = "https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=10000&gscoord=" + sLocation[0] + "%7c" + sLocation[1] + "&format=json";
+
+                
+
             }
             catch (Exception ex)
             {
