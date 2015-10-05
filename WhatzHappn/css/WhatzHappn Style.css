@@ -9,16 +9,33 @@
     width: 100%;
 	height: 800px;
 	min-width: 440px;
-	background-image: url("../images/Classical.jpg");
-	padding: 30px 0px 0px 0px;
+	background: url("../images/bokeh_lights.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 30px 0px 0px 0px;
 }
 
+.whlogo {
+    position: absolute;
+    top: 10px;
+    left: 120px;
+    width: 200px;
+    -webkit-animation-duration: 2s; 
+    animation-duration: 2s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+
 h1 {
-	padding-left: 220px;
-	font-family: 'Rye', cursive;
-	font-size: 65px;
+	text-align:center;
+	font-family: 'Londrina Shadow', cursive;
+	font-size: 90px;
 	color: #FFF;
-	letter-spacing: 4px;
+	letter-spacing: 8px;
 	text-transform: uppercase;
     -webkit-animation-duration: 1s; 
     animation-duration: 1s; 
@@ -55,13 +72,25 @@ h1 {
     animation-name: fadeInDown; 
 }
 
+#googlemap {
+    width: 750px;
+    height: 420px;
+}
+
+#line {
+    position: absolute;
+    top: 225px;
+    left: 510px;
+
+}
+
 .map {
 	width: 500px;
 	height: 400px;
 	float: left;
 	position: absolute;
-	top: 200px;
-	right: 300px;
+	top: 210px;
+	right: 350px;
     -webkit-animation-duration: 3s; 
     animation-duration: 3s; 
     -webkit-animation-fill-mode: both; 
@@ -69,7 +98,6 @@ h1 {
     -webkit-animation-timing-function: linear; 
     animation-timing-function: linear; 
 } 
-
 @-webkit-keyframes fadeInRight { 
     0% { 
         opacity: 0; 
@@ -95,9 +123,18 @@ h1 {
     animation-name: fadeInRight; 
 }
 
+.textContainer {
+    padding: 20px 5px 5px 5px;
+    height: 400px;
+    margin: 10px 20px;
+    opacity: 0.9;
+    background-color: #000;
+}
+
 .text {
 	width: 350px;
-	padding-left: 200px;
+	padding-left: 80px;
+    padding-top: 0px;
 	text-align: right;
 	font-family: 'Piedra', cursive;
 	font-size: 21px;
@@ -141,15 +178,7 @@ h1 {
 #WeatherContent {
     padding-top: 5px;
     padding-bottom: 5px;
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bee3ea+0,e0f3fa+10,d8f0fc+90,bee3ea+100 */
-    background: rgb(190,227,234); /* Old browsers */
-    background: -moz-linear-gradient(-45deg, rgba(190,227,234,1) 0%, rgba(224,243,250,1) 10%, rgba(216,240,252,1) 90%, rgba(190,227,234,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(190,227,234,1)), color-stop(10%,rgba(224,243,250,1)), color-stop(90%,rgba(216,240,252,1)), color-stop(100%,rgba(190,227,234,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(-45deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* IE10+ */
-    background: linear-gradient(135deg, rgba(190,227,234,1) 0%,rgba(224,243,250,1) 10%,rgba(216,240,252,1) 90%,rgba(190,227,234,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bee3ea', endColorstr='#bee3ea',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+   
 }
 
 .whTile {
