@@ -1,8 +1,8 @@
 ﻿body {
-	background: #FFF;
+	background-color: transparent;
 	margin: 0;
 	padding: 0;
-    background: url("../images/bokeh_lights.jpg") no-repeat center center fixed;
+   background: url("../images/bokeh_lights.jpg") no-repeat center center fixed;
 }
 
 .header {
@@ -20,7 +20,7 @@
 .whlogo {
     position: absolute;
     top: 10px;
-    left: 100px;
+    left: 170px;
     width: 200px;
     -webkit-animation-duration: 2s; 
     animation-duration: 2s; 
@@ -34,8 +34,8 @@ h1 {
 	text-align:center;
     padding-left: 20px;
 	font-family: 'Frijole', cursive;
-	font-size: 65px;
-	color: #FFF;
+	font-size: 40px;
+	color: white;
 	letter-spacing: 8px;
 	text-transform: uppercase;
     -webkit-animation-duration: 1s; 
@@ -75,24 +75,25 @@ h1 {
 
 /*text container settings*/
 .textContainer {
-    padding: 40px 5px 5px 5px;
+    padding: 80px 5px 5px 5px;
     height: 440px;
     margin: 10px 20px;
     opacity: 0.9;
     background-color: black;
+
 }
 
 /*text font settings*/
 .text {
 	width: 350px;
 	padding-left: 80px;
-    padding-top: 20px;
+    padding-top: 0px;
     text-align: right;
-	font-family: 'Piedra', cursive;
-	font-size: 20px;
-	line-height: 32px;
+	font-family: 'Frijole', cursive;
+	font-size: 16px;
+	line-height: 26px;
 	color: #FFF;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
      -webkit-animation-duration: 2s; 
     animation-duration: 2s; 
     -webkit-animation-fill-mode: both; 
@@ -221,7 +222,6 @@ h1 {
 
 
 #WeatherContent {
-    background: url("../images/black_loop_background.jpg");
     opacity: 0.95;
     height: 830px;
     padding-top: 80px;
@@ -235,7 +235,7 @@ h1 {
 	width: 350px;
     float: left;
     margin-left: 70px;
-    margin-top: 15px;
+    margin-top: 80px;
     background-color: #FFF;
    -webkit-animation-duration: 3.0s; 
     animation-duration: 3.0s; 
@@ -244,6 +244,32 @@ h1 {
     -webkit-animation-timing-function: linear; 
     animation-timing-function: linear; 
     border-radius: 7px;
+    -webkit-box-reflect: below 6px 
+		-webkit-gradient(linear, 
+			left top, 
+			left bottom, 
+			from(transparent),
+			color-stop(.7, transparent),
+			to(rgba(255,255,255,.5)));
+}
+
+.whTile:hover {
+    color: black;
+    -webkit-transform:scale(1.25); /* Safari and Chrome */
+    -moz-transform:scale(1.25); /* Firefox */
+    -ms-transform:scale(1.25); /* IE 9 */
+    -o-transform:scale(1.25); /* Opera */
+     transform:scale(1.25);
+   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f6f8+0,d8e1e7+50,b5c6d0+51,e0eff9+100;Grey+Gloss+%232 */
+background: rgb(242,246,248); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(242,246,248,1)), color-stop(50%,rgba(216,225,231,1)), color-stop(51%,rgba(181,198,208,1)), color-stop(100%,rgba(224,239,249,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  rgba(242,246,248,1) 0%,rgba(216,225,231,1) 50%,rgba(181,198,208,1) 51%,rgba(224,239,249,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  rgba(242,246,248,1) 0%,rgba(216,225,231,1) 50%,rgba(181,198,208,1) 51%,rgba(224,239,249,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  rgba(242,246,248,1) 0%,rgba(216,225,231,1) 50%,rgba(181,198,208,1) 51%,rgba(224,239,249,1) 100%); /* IE10+ */
+background: linear-gradient(135deg,  rgba(242,246,248,1) 0%,rgba(216,225,231,1) 50%,rgba(181,198,208,1) 51%,rgba(224,239,249,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#e0eff9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
 
 @-webkit-keyframes fadeIn { 
@@ -266,8 +292,21 @@ h1 {
     height: 100px;
 }
 
+
+/*Monopoly card color headers*/
 .TileHeaderBlue {
     background-color: blue;
+    border-radius: 7px;
+}
+
+.TileHeaderGreen {
+    background-color: green;
+    border-radius: 7px;
+}
+
+.TileHeaderRed {
+
+    background-color: red;
     border-radius: 7px;
 }
 

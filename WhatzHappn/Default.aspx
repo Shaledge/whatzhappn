@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WhatzHappn._Default" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<meta charset="UTF-8">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -8,17 +9,15 @@
     <link href='https://fonts.googleapis.com/css?family=Piedra|Rye|Sarina|Jacques+Francois+Shadow' rel='stylesheet' type='text/css' />
     <link href='https://fonts.googleapis.com/css?family=Frijole' rel='stylesheet' type='text/css'/>
     <link href="css/WhatzHappn Style.css" rel="stylesheet" type="text/css" />
+    <link href="Scripts/WhatzHappn.js" rel="index" type="text/javascript" />
 
 </head>
 <body runat="server" id="WHBody">
-
-    <div class="header">
-
-        <img alt="logo" class="whlogo fadeInLeft" src="images/wh_logo.png" />
-
-        <h1 class="fadeInDown">Whatz Happn</h1>
+           
+        <div class="header">
+             <h1 class="fadeInDown">Whatz Happn</h1>
              
-    <div class="textContainer">
+            <div class="textContainer">
        
             <div class="text animated fadeInLeft">
              <p>See whatz happenin in your city! </p>
@@ -27,9 +26,12 @@
                 
                 <p> If you don't see your current location or want to search a different location, use the map to find your preferred cities current items.</p>
         </div>
+
         </div>
     
         <img alt="line" id="line" src="images/Line.jpg" />
+
+         <img alt="logo" class="whlogo fadeInLeft" src="images/WhatzHappn512x512.png" />
 
         <div class="signature fadeInRight">
         <p>Created by Rose and Wallace 2015</p>
@@ -38,6 +40,7 @@
         <div class="map fadeInRight">
             <iframe id="googlemap" src="https://www.google.com/maps/embed?q=-37.866963,144.980615" width="500" height="450" runat="server"></iframe>
         </div>
+
         </div>
     
 </body>
