@@ -22,8 +22,10 @@ using Newtonsoft.Json;
 //using Spring.Social.Twitter.Api.Impl;
 
 
-//Wikipedia
-//using new
+//Yelp
+using SimpleOAuth;
+using CommandLine;
+using System.Text;
 
 
 namespace WhatzHappn
@@ -79,6 +81,170 @@ namespace WhatzHappn
         public string Primary { get; set; }
     }
 
+    class YelpAPIClient
+    {
+        #region Private Members
+        private string msConsumerKey = "";
+        private string msConsumerSecret = "";
+        private string msToken = "";
+        private string msTokenSecret = "";
+
+        public class Business
+        {
+            public string is_claimed { get; set; }
+
+            public string rated { get; set; }
+
+            public string mobile_url { get; set; }
+
+            public string rating_img_url { get; set; }
+
+            public string review_img_url { get; set; }
+
+            public string review_count { get; set; }
+
+            public string name { get; set; }
+        }
+        #endregion
+
+        #region Public Properties
+        public string ConsumerKey
+        {
+            get { return msConsumerKey; }
+
+            set { msConsumerKey = value; }
+        }
+
+        public string ConsumerSecret
+        {
+            get { return msConsumerSecret; }
+
+            set { msConsumerSecret = value; }
+        }
+
+        public string Token
+        {
+            get { return msToken; }
+
+            set { msToken = value; }
+        }
+
+        public string TokenSecret
+        {
+            get { return msTokenSecret; }
+
+            set { msTokenSecret = value; }
+        }
+        #endregion
+
+        public YelpAPIClient()
+        { }
+
+        public YelpAPIClient(
+            string ConsumerKey, 
+            string ConsumerSecret, 
+            string Token, 
+            string TokenSecret)
+        {
+            this.ConsumerKey = ConsumerKey;
+            this.ConsumerSecret = ConsumerSecret;
+            this.Token = Token;
+            this.TokenSecret = TokenSecret;
+        }
+
+
+        /// <summary>
+        /// Host of the API.
+        /// </summary>
+        private const string API_HOST = "http://api.yelp.com";
+
+        /// <summary>
+        /// Relative path for the Search API.
+        /// </summary>
+        private const string SEARCH_PATH = "/v2/search/";
+
+        /// <summary>
+        /// Relative path for the Business API.
+        /// </summary>
+        private const string BUSINESS_PATH = "/v2/business/";
+
+        /// <summary>
+        /// Search limit that dictates the number of businesses returned.
+        /// </summary>
+        private const int SEARCH_LIMIT = 3;
+
+        /// <summary>
+        /// Prepares OAuth authentication and sends the request to the API.
+        /// </summary>
+        /// <param name="baseURL">The base URL of the API.</param>
+        /// <param name="queryParams">The set of query parameters.</param>
+        /// <returns>The JSON response from the API.</returns>
+        /// <exception>Throws WebException if there is an error from the HTTP request.</exception>
+        private JObject PerformRequest(string baseURL, Dictionary<string, string> queryParams = null)
+        {
+            var query = System.Web.HttpUtility.ParseQueryString(String.Empty);
+
+            if (queryParams == null)
+            {
+                queryParams = new Dictionary<string, string>();
+            }
+
+            foreach (var queryParam in queryParams)
+            {
+                query[queryParam.Key] = queryParam.Value;
+            }
+
+            var uriBuilder = new UriBuilder(baseURL);
+            uriBuilder.Query = query.ToString();
+
+            WebRequest request = WebRequest.Create(uriBuilder.ToString());
+            request.Method = "GET";
+
+            request.SignRequest(
+                new Tokens
+                {
+                    ConsumerKey = this.ConsumerKey,
+                    ConsumerSecret = this.ConsumerSecret,
+                    AccessToken = this.Token,
+                    AccessTokenSecret = this.TokenSecret
+                }
+            ).WithEncryption(EncryptionMethod.HMACSHA1).InHeader();
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            var stream = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+            return JObject.Parse(stream.ReadToEnd());
+        }
+
+        /// <summary>
+        /// Query the Search API by a search term and location.
+        /// </summary>
+        /// <param name="term">The search term passed to the API.</param>
+        /// <param name="location">The search location passed to the API.</param>
+        /// <returns>The JSON response from the API.</returns>
+        public JObject Search(string term, string location)
+        {
+            string baseURL = API_HOST + SEARCH_PATH;
+            var queryParams = new Dictionary<string, string>()
+            {
+                { "term", term },
+                { "location", location },
+                { "limit", SEARCH_LIMIT.ToString() }
+            };
+            return PerformRequest(baseURL, queryParams);
+        }
+
+        /// <summary>
+        /// Query the Business API by a business ID.
+        /// </summary>
+        /// <param name="business_id">The ID of the business to query.</param>
+        /// <returns>The JSON response from the API.</returns>
+        public JObject GetBusiness(string business_id)
+        {
+            string baseURL = API_HOST + BUSINESS_PATH + business_id;
+            return PerformRequest(baseURL);
+        }
+    }
+
     public partial class _Default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -101,6 +267,8 @@ namespace WhatzHappn
                     GetTwitter(ipInfo);
 
                     GetWikipedia(ipInfo);
+
+                    GetYelp(ipInfo);
                 }
                 else
                 {
@@ -313,15 +481,12 @@ namespace WhatzHappn
         {
             try
             {
+                //Consumer Key, Consumer Secret, Token, Token Secret
                 string sKeys = GetKeys("Twitter");
                 string[] sLocation = ipInfo.loc.ToString().Split(',');
 
                 
-                string consumerKey = "CqaKxD9lsqpVAMK1glAG5EBnE"; // The application's consumer key
-                string consumerSecret = "wglFk5bWsF3zaHveBVb2hAJZhtJtBYXREAt2U9CWvzd5mS6YXh"; // The application's consumer secret
-                string accessToken = "323979914-KOBc04INtFXN2sEAHlL2hRTodkXTjqaCFx1UpBcM"; // The access token granted after OAuth authorization
-                string accessTokenSecret = "2ie1KHu3lDd6oz1tQLwIH2BEl48P9IAaF5woHkm8fCi44"; // The access token secret granted after OAuth authorization
-                //ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+                 //ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
 
 
@@ -387,12 +552,38 @@ namespace WhatzHappn
             }
         }
 
-        private void GetNYTimes(IPInfo ipInfo)
+        private void GetYelp(IPInfo ipInfo)
         {
             try
             {
-                
+                //Consumer Key, Consumer Secret, Token, Token Secret	
+                string sHeaderColor = "TileHeaderBlue";
+                string sTileHeight = "whTileHeightSmall";
+                string sTerm = "food";
+                string sKeys = GetKeys("Yelp");
+                string[] KeyList = sKeys.Split(',');
+                string sLocation = ipInfo.city + ", " + ipInfo.region;
 
+                HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
+                SectionDIV.Attributes["class"] = "header";
+                SectionDIV.ID = "ParentContent";
+
+                YelpAPIClient YelpClient = new YelpAPIClient(KeyList[0], KeyList[1], KeyList[2], KeyList[3]);
+
+                JObject YelpResponse = YelpClient.Search(sTerm, sLocation);
+
+                JArray Businesses = (JArray)YelpResponse.GetValue("businesses");
+
+                foreach(var Business in Businesses)
+                {
+                    var YelpBusiness = (YelpAPIClient.Business)Business.ToObject(typeof(YelpAPIClient.Business));
+
+                    AddContentTile(SectionDIV, null, YelpBusiness.name,
+                        "Rating: " + YelpBusiness.rated + ".  " + 
+                        "Number of ratings: " + YelpBusiness.review_count + ".  " + 
+                        "Details: " + YelpBusiness.mobile_url, 
+                        sHeaderColor, sTileHeight);
+                }
             }
             catch (Exception ex)
             {
