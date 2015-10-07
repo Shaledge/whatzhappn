@@ -392,6 +392,8 @@ namespace WhatzHappn
                 string[] sLocation = ipInfo.loc.ToString().Split(',');
                 string sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
                 this.googlemap.Attributes.Add("src", sMapSource);
+
+                this.WHCity.InnerText = "See whatz happenin in " + ipInfo.city + "!";
             }
             catch (Exception ex)
             {
