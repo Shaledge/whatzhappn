@@ -416,10 +416,6 @@ namespace WhatzHappn
                 WeatherIcon.CssClass = "HeaderIcon";
                 WeatherIcon.ImageUrl = "images/" + "weather" + ".png";
                 
-                HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
-                SectionDIV.Attributes["class"] = "header";
-                SectionDIV.ID = "WeatherContent";
-                
 
                 xNavigator = xDoc.CreateNavigator();
 
@@ -431,7 +427,7 @@ namespace WhatzHappn
                 {
                     xNode = xNodes.Current;
 
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.InnerXml.ToString(), sHeaderColor, sTileHeight);
+                    AddContentTile(WeatherIcon, "", xNode.InnerXml.ToString(), sHeaderColor, sTileHeight);
                 }
 
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:condition", xNameSpace);
@@ -441,23 +437,21 @@ namespace WhatzHappn
                 {
                     dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sHeaderColor, sTileHeight);
+                    AddContentTile(WeatherIcon, "", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sHeaderColor, sTileHeight);
 
                     dSeconds += 0.05;
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile(WeatherIcon, "", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
                 }
-
 
                 //Sunrise and Sunset
                 xNodes = xNavigator.Select("/rss/channel/yweather:astronomy", xNameSpace);
                 while(xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile(WeatherIcon, "", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
 
-                    AddContentTile(SectionDIV, WeatherIcon, "", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile(WeatherIcon, "", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
                 }
-
 
                 //extended forcast
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:forecast", xNameSpace);
@@ -465,11 +459,10 @@ namespace WhatzHappn
                 {
                     dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile(SectionDIV, WeatherIcon, "", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile(WeatherIcon, "", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
                 }
 
-                //Add everything to the body
-                this.WHBody.Controls.Add(SectionDIV);
+                
             }
             catch (Exception ex)
             {
@@ -531,9 +524,6 @@ namespace WhatzHappn
                 string[] sLocation = ipInfo.loc.ToString().Split(',');
                 string sURL = "https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=10000&gscoord=" + sLocation[0] + "%7c" + sLocation[1] + "&format=json";
 
-                HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
-                SectionDIV.Attributes["class"] = "header";
-                SectionDIV.ID = "ParentContent";
 
                 using (WebClient client = new WebClient())
                 {
@@ -542,7 +532,7 @@ namespace WhatzHappn
 
                     foreach(GeoSearchResult Article in Articles.Query.GeoSearch)
                     {
-                        AddContentTile(SectionDIV, null, Article.Title, "http://en.wikipedia.org/?curid=" + Article.PageId, sHeaderColor, sTileHeight);
+                        AddContentTile(null, Article.Title, "http://en.wikipedia.org/?curid=" + Article.PageId, sHeaderColor, sTileHeight);
                     }
                 }
             }
@@ -557,16 +547,13 @@ namespace WhatzHappn
             try
             {
                 //Consumer Key, Consumer Secret, Token, Token Secret	
-                string sHeaderColor = "TileHeaderBlue";
+                string sHeaderColor = "TileHeaderRed";
                 string sTileHeight = "whTileHeightSmall";
                 string sTerm = "food";
                 string sKeys = GetKeys("Yelp");
                 string[] KeyList = sKeys.Split(',');
                 string sLocation = ipInfo.city + ", " + ipInfo.region;
 
-                HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
-                SectionDIV.Attributes["class"] = "header";
-                SectionDIV.ID = "ParentContent";
 
                 YelpAPIClient YelpClient = new YelpAPIClient(KeyList[0], KeyList[1], KeyList[2], KeyList[3]);
 
@@ -578,7 +565,7 @@ namespace WhatzHappn
                 {
                     var YelpBusiness = (YelpAPIClient.Business)Business.ToObject(typeof(YelpAPIClient.Business));
 
-                    AddContentTile(SectionDIV, null, YelpBusiness.name,
+                    AddContentTile(null, YelpBusiness.name,
                         "Rating: " + YelpBusiness.rated + ".  " + 
                         "Number of ratings: " + YelpBusiness.review_count + ".  " + 
                         "Details: " + YelpBusiness.mobile_url, 
@@ -593,7 +580,6 @@ namespace WhatzHappn
 
 
         private void AddContentTile(
-            HtmlGenericControl ParentDIV, 
             Image Icon, 
             string Title, 
             string Body, 
@@ -602,12 +588,9 @@ namespace WhatzHappn
         {
             try
             {
-                //,            double Seconds
                 HtmlGenericControl WHTileDIV = new HtmlGenericControl("div");
                 WHTileDIV.Attributes["class"] = "whTile animated fadeIn " + TileHeight;
-                //WHTileDIV.Attributes["class"].Parameter.Value = Seconds
-
-                WHTileDIV.ID = "ContentTile_" + NewGuid();
+                WHTileDIV.ID = "WHTile_" + NewGuid();
 
                 HtmlGenericControl Border3DIV = new HtmlGenericControl("div");
                 Border3DIV.Attributes["class"] = "border3";
@@ -647,7 +630,7 @@ namespace WhatzHappn
 
                 WHTileDIV.Controls.Add(BodyParagraph);
 
-                ParentDIV.Controls.Add(WHTileDIV);
+                this.WHTiles.Controls.Add(WHTileDIV);
             }
             catch (Exception ex)
             {

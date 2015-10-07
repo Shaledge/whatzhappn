@@ -13,25 +13,22 @@
 
 </head>
 <body runat="server" id="WHBody">
-           
-        <div class="header">
-             <h1 class="fadeInDown">Whatz Happn</h1>
+    <div class="header">
+        <h1 class="fadeInDown">Whatz Happn</h1>
              
-            <div class="textContainer">
-       
+        <div class="textContainer">
             <div class="text animated fadeInLeft">
-             <p>See whatz happenin in your city! </p>
+                 <p>See whatz happenin in your city! </p>
                 
-            <p>Its easy, just click the search button and we will use your current location to pull in the latest tweets, weather and news stories closest to you.</p>
+                <p>Its easy, just click the search button and we will use your current location to pull in the latest tweets, weather and news stories closest to you.</p>
                 
-            <p> If you don't see your current location or want to search a different location, use the map to find your preferred cities current items.</p>
-        </div>
-
+                <p> If you don't see your current location or want to search a different location, use the map to find your preferred cities current items.</p>
+            </div>
         </div>
     
         <img alt="line" id="line" src="images/Line.jpg" />
 
-         <img alt="logo" class="whlogo fadeInLeft" src="images/WhatzHappn512x512.png" />
+        <img alt="logo" class="whlogo fadeInLeft" src="images/WhatzHappn512x512.png" />
 
         <div class="signature fadeInRight">
         <p>Created by Rose and Wallace 2015</p>
@@ -40,8 +37,9 @@
         <div class="map fadeInRight">
             <iframe id="googlemap" src="https://www.google.com/maps/embed?q=-37.866963,144.980615" width="500" height="450" runat="server"></iframe>
         </div>
-
-        </div>
+    </div>
     
+    <div class="header" id="WHTiles" runat="server"></div>
+
 </body>
 </html>
