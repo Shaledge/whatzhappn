@@ -18,11 +18,11 @@
              
         <div class="textContainer">
             <div class="text animated fadeInLeft">
-                 <p>See whatz happenin in your city! </p>
+                <p>See whatz happenin in your city!</p>
                 
                 <p>Its easy, just click the search button and we will use your current location to pull in the latest tweets, weather and news stories closest to you.</p>
                 
-                <p> If you don't see your current location or want to search a different location, use the map to find your preferred cities current items.</p>
+                <p>If you don't see your current location or want to search a different location, use the map to find your preferred cities current items.</p>
             </div>
         </div>
     
