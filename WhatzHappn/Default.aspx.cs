@@ -9,9 +9,21 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.XPath;
 using System.IO;
+using System.Diagnostics;
+using System.Reflection;
+using Newtonsoft;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+
 
 //Twitter
+//using Spring.Social.Twitter;
+//using Spring.Social.Twitter.Api;
+//using Spring.Social.Twitter.Api.Impl;
 
+
+//Wikipedia
+//using new
 
 
 namespace WhatzHappn
@@ -28,13 +40,52 @@ namespace WhatzHappn
         public string postal { get; set; }
     }
 
+    class WikipediaObject
+    {
+        [JsonProperty(PropertyName = "batchcomplete")]
+        public string BatchComplete { get; set; }
+
+        [JsonProperty(PropertyName = "query")]
+        public QueryObject Query { get; set; }
+    }
+
+    class QueryObject
+    {
+        [JsonProperty(PropertyName = "geosearch")]
+        public List<GeoSearchResult> GeoSearch { get; set; }
+    }
+
+    class GeoSearchResult
+    {
+        [JsonProperty(PropertyName = "pageid")]
+        public string PageId { get; set; }
+
+        [JsonProperty(PropertyName = "ns")]
+        public string Ns { get; set; }
+
+        [JsonProperty(PropertyName = "title")]
+        public string Title { get; set; }
+
+        [JsonProperty(PropertyName = "lat")]
+        public decimal Latitude { get; set; }
+
+        [JsonProperty(PropertyName = "lon")]
+        public decimal Longitude { get; set; }
+
+        [JsonProperty(PropertyName = "distance")]
+        public decimal Distance { get; set; }
+
+        [JsonProperty(PropertyName = "primary")]
+        public string Primary { get; set; }
+    }
+
     public partial class _Default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
-                this.Title = "Whatz Happn: Version 0.007";
+                this.Title = "Whatz Happn: Version 0.008";
                 string sIPAddress = GetIPAddress();
                 sIPAddress = "71.125.17.29";  //TEMP for development
                 
@@ -133,16 +184,16 @@ namespace WhatzHappn
 
         private IPInfo GetIPInfo(string IPAddress)
         {
-            string URL = "http://ipinfo.io/" + IPAddress;
+            string sURL = "http://ipinfo.io/" + IPAddress;
             using (WebClient client = new WebClient())
             {
-                string json = client.DownloadString(URL);
+                string json = client.DownloadString(sURL);
                 IPInfo ipinfo = new JavaScriptSerializer().Deserialize<IPInfo>(json);
                 return ipinfo;
             }
         }
 
-        private string Getkeys(string Name)
+        private string GetKeys(string Name)
         {
             string sReturn = "";
 
@@ -262,19 +313,30 @@ namespace WhatzHappn
         {
             try
             {
-                string sKeys = Getkeys("Twitter");
+                string sKeys = GetKeys("Twitter");
+                string[] sLocation = ipInfo.loc.ToString().Split(',');
 
-                string consumerKey = "..."; // The application's consumer key
-                string consumerSecret = "..."; // The application's consumer secret
-                string accessToken = "..."; // The access token granted after OAuth authorization
-                string accessTokenSecret = "..."; // The access token secret granted after OAuth authorization
-               /* ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);*/
+                
+                string consumerKey = "CqaKxD9lsqpVAMK1glAG5EBnE"; // The application's consumer key
+                string consumerSecret = "wglFk5bWsF3zaHveBVb2hAJZhtJtBYXREAt2U9CWvzd5mS6YXh"; // The application's consumer secret
+                string accessToken = "323979914-KOBc04INtFXN2sEAHlL2hRTodkXTjqaCFx1UpBcM"; // The access token granted after OAuth authorization
+                string accessTokenSecret = "2ie1KHu3lDd6oz1tQLwIH2BEl48P9IAaF5woHkm8fCi44"; // The access token secret granted after OAuth authorization
+                //ITwitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
-                //ISearchOperations search = new ISearchOperations();
 
 
-      
+                //IList<Place> results = twitter.GeoOperations.SearchAsync(Convert.ToDouble(sLocation[0]), Convert.ToDouble(sLocation[1])).Result;
 
+                //IList<Place> RETURNS = twitter.GeoOperations.ReverseGeoCodeAsync(Convert.ToDouble(sLocation[0]), Convert.ToDouble(sLocation[1]), null, "10m").Result;
+
+                //System.Threading.Tasks.Task<SearchResults> searchResults = twitter.SearchOperations.SearchAsync("#NYC");
+
+                //var searchResults = twitter.SearchOperations.SearchAsync("#NYC", 10, 20);
+
+                //var returnIT = searchResults.Wait(5000);
+                    
+                
+                //-----------------------------------------------
                 Image WeatherIcon = new Image();
                 WeatherIcon.CssClass = "HeaderIcon";
                 WeatherIcon.ImageUrl = "images/" + "twitter" + ".png";
@@ -299,9 +361,36 @@ namespace WhatzHappn
         {
             try
             {
+                string sHeaderColor = "TileHeaderBlue";
+                string sTileHeight = "whTileHeightSmall";
                 string[] sLocation = ipInfo.loc.ToString().Split(',');
                 string sURL = "https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=10000&gscoord=" + sLocation[0] + "%7c" + sLocation[1] + "&format=json";
 
+                HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
+                SectionDIV.Attributes["class"] = "header";
+                SectionDIV.ID = "ParentContent";
+
+                using (WebClient client = new WebClient())
+                {
+                    var json = client.DownloadString(sURL);
+                    WikipediaObject Articles = JsonConvert.DeserializeObject<WikipediaObject>(json);
+
+                    foreach(GeoSearchResult Article in Articles.Query.GeoSearch)
+                    {
+                        AddContentTile(SectionDIV, null, Article.Title, "http://en.wikipedia.org/?curid=" + Article.PageId, sHeaderColor, sTileHeight);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
+
+        private void GetNYTimes(IPInfo ipInfo)
+        {
+            try
+            {
                 
 
             }
@@ -310,6 +399,7 @@ namespace WhatzHappn
                 logException(ex);
             }
         }
+
 
         private void AddContentTile(
             HtmlGenericControl ParentDIV, 
@@ -381,7 +471,30 @@ namespace WhatzHappn
 
         private void logException(Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            try
+            {
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = st.GetFrame(0).GetFileLineNumber();
+
+                //Some .net internals are erroring but not returning a line number
+                //if (line > 0)
+                //{
+                    MethodBase site = ex.TargetSite;
+                    string sMethodName = site == null ? null : site.Name;
+
+
+                    Console.WriteLine("------------------");
+                    Console.WriteLine(DateTime.Now.ToString());
+                    Console.WriteLine("Line: " + line.ToString());
+                    Console.WriteLine("Method: " + sMethodName);
+                    Console.WriteLine("Exception: " + ex.Message);
+                    Console.Write(ex.StackTrace.ToString());
+                    Console.WriteLine("");
+                
+                //} //line > 0
+            }
+            catch { }
         }
     }
 }

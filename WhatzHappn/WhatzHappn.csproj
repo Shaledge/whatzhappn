@@ -43,6 +43,10 @@
       <HintPath>..\packages\Common.Logging.2.0.0\lib\2.0\Common.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\WHTwitter\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -63,8 +67,10 @@
     <Content Include="App_Data\Twitter.txt" />
     <Content Include="App_Readme\Spring.Rest.txt" />
     <Content Include="App_Readme\Spring.Social.Core.txt" />
+    <Content Include="App_Readme\Spring.Social.Twitter.txt" />
     <Content Include="css\WhatzHappn Style.css" />
     <Content Include="Default.aspx" />
+    <Content Include="GettingStarted.txt" />
     <Content Include="images\black_loop_background.jpg" />
     <Content Include="images\bokeh_lights.jpg" />
     <Content Include="images\Line.jpg" />
