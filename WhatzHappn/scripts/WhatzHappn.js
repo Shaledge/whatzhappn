@@ -4,3 +4,4 @@ function GetLocation(location) {
     alert(location.coords.longitude);
     alert(location.coords.accuracy);
 }
+
