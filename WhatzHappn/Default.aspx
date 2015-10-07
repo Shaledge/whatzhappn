@@ -18,7 +18,7 @@
              
         <div class="textContainer">
             <div class="text animated fadeInLeft">
-                <p>See whatz happenin in your city!</p>
+                <p id="WHCity" runat="server">See whatz happenin in your city!</p>
                 
                 <p>Its easy, just click the search button and we will use your current location to pull in the latest tweets, weather and news stories closest to you.</p>
                 

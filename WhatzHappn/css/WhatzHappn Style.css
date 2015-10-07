@@ -249,7 +249,7 @@ h1 {
 			left top, 
 			left bottom, 
 			from(transparent),
-			color-stop(.7, transparent),
+			color-stop(.8, transparent),
 			to(rgba(255,255,255,.5)));
 }
 
