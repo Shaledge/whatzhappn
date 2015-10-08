@@ -9,10 +9,14 @@
     <link href='https://fonts.googleapis.com/css?family=Piedra|Rye|Sarina|Jacques+Francois+Shadow' rel='stylesheet' type='text/css' />
     <link href='https://fonts.googleapis.com/css?family=Frijole' rel='stylesheet' type='text/css'/>
     <link href="css/WhatzHappn Style.css" rel="stylesheet" type="text/css" />
-    <link href="Scripts/WhatzHappn.js" rel="index" type="text/javascript" />
+    <script src="Scripts/WhatzHappn.js" type="text/javascript"></script>
+
 
 </head>
+
 <body runat="server" id="WHBody">
+    <canvas id="canvas"></canvas>
+
     <div class="header">
         <h1 class="fadeInDown">Whatz Happn</h1>
              
@@ -41,5 +45,5 @@
     
     <div class="header" id="WHTiles" runat="server"></div>
 
-</body>
+</body> 
 </html>

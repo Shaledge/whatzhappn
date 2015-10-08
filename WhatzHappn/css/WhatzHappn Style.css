@@ -1,8 +1,15 @@
 ﻿body {
-	background-color: transparent;
+	background-color: black; /* transparent; */
 	margin: 0;
 	padding: 0;
-   background: url("../images/bokeh_lights.jpg") no-repeat center center fixed;
+   /*background: url("../images/bokeh_lights.jpg") no-repeat center center fixed;*/
+}
+
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+   /* z-index: 1;*/
 }
 
 .header {
