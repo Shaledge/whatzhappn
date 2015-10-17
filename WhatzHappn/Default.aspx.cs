@@ -251,12 +251,8 @@ namespace WhatzHappn
         {
             try
             {
-                //ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:Init();", true);
-                // pageBody.Attributes.Add("onload", "someFunction()");
                 this.WHBody.Attributes.Add("onload", "WHInit()");
-
-                
-                this.Title = "Whatz Happn: Version 0.010";
+                this.Title = "Whatz Happn: Version 0.014";
                 string sIPAddress = GetIPAddress();
                 sIPAddress = "71.125.17.29";  //TEMP for development
                 

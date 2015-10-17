@@ -7,7 +7,7 @@ function loadBubbles()
     var canvas = document.getElementById("canvas"),
         ctx = canvas.getContext("2d"),
         width = window.innerWidth,
-        height = window.innerHeight;
+        height = (window.innerHeight * 2);
 
     canvas.width = width;
     canvas.height = height;
@@ -24,7 +24,7 @@ function loadBubbles()
             this.color = { r: 0, g: 0, b: 0 };
             var colorAvg = 0;
 
-            while (colorAvg < 150) {
+            while (colorAvg < 180) {
                 this.color.r = Math.floor(Math.random() * 255);
                 this.color.g = Math.floor(Math.random() * 255);
                 this.color.b = Math.floor(Math.random() * 255);
