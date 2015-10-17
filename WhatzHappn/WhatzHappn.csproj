@@ -78,6 +78,7 @@
     <Content Include="css\WhatzHappn Style.css" />
     <Content Include="Default.aspx" />
     <Content Include="GettingStarted.txt" />
+    <Content Include="images\art.png" />
     <Content Include="images\black_loop_background.jpg" />
     <Content Include="images\bokeh_lights.jpg" />
     <Content Include="images\Line.jpg" />

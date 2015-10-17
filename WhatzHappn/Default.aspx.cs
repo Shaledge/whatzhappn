@@ -273,6 +273,8 @@ namespace WhatzHappn
                     GetWikipedia(ipInfo);
 
                     GetYelp(ipInfo);
+
+                    GetArt(ipInfo);
                 }
                 else
                 {
@@ -410,12 +412,12 @@ namespace WhatzHappn
             try
             {
                 string sTileHeight = "whTileHeightSmall";
-                double dSeconds = 3.0;
                 XPathDocument xDoc = new XPathDocument("http://xml.weather.yahoo.com/forecastrss?p=" + ipInfo.postal);
                 XPathNavigator xNavigator;
                 XmlNamespaceManager xNameSpace;
                 XPathNodeIterator xNodes;
                 XPathNavigator xNode;
+                string sBody = "";
                 
 
                 xNavigator = xDoc.CreateNavigator();
@@ -427,7 +429,7 @@ namespace WhatzHappn
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    AddContentTile("weather", xNode.InnerXml.ToString(), sTileHeight);
+                    sBody = xNode.InnerXml.ToString() + "<br/>";
                 }
 
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:condition", xNameSpace);
@@ -435,12 +437,11 @@ namespace WhatzHappn
                 //Basic: Temp and Condition
                 while (xNodes.MoveNext())
                 {
-                    dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile("weather", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sTileHeight);
+                    sBody += xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f<br/>";
 
-                    dSeconds += 0.05;
-                    AddContentTile("weather", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sTileHeight);
+                    sBody += xNode.GetAttribute("text", xNameSpace.DefaultNamespace);
+                    AddContentTile("weather", sBody, sTileHeight);
                 }
 
                 //Sunrise and Sunset
@@ -448,21 +449,19 @@ namespace WhatzHappn
                 while(xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    AddContentTile("weather", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sTileHeight);
-
-                    AddContentTile("weather", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sTileHeight);
+                    AddContentTile("weather", 
+                        "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace) + "<br/>" +
+                        "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), 
+                        sTileHeight);
                 }
 
                 //extended forcast
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:forecast", xNameSpace);
                 while (xNodes.MoveNext())
                 {
-                    dSeconds += 0.05;
                     xNode = xNodes.Current;
                     AddContentTile("weather", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sTileHeight);
                 }
-
-                
             }
             catch (Exception ex)
             {
@@ -522,7 +521,7 @@ namespace WhatzHappn
 
                     foreach(GeoSearchResult Article in Articles.Query.GeoSearch)
                     {
-                        AddContentTile("Wikipedia", Article.Title + " " + "http://en.wikipedia.org/?curid=" + Article.PageId, sTileHeight);
+                        AddContentTile("Wikipedia", "<a href=" + "http://en.wikipedia.org/?curid=" + Article.PageId + ">" + Article.Title + "</a>", sTileHeight);
                     }
                 }
             }
@@ -555,12 +554,13 @@ namespace WhatzHappn
                     var YelpBusiness = (YelpAPIClient.Business)Business.ToObject(typeof(YelpAPIClient.Business));
 
                     AddContentTile("Yelp", 
-                        YelpBusiness.name + " " +
+                        "<a href=" + YelpBusiness.mobile_url + "/>" + YelpBusiness.name + "</a><br/>" +
                         "Rating: " + YelpBusiness.rated + ".  " + 
-                        "Number of ratings: " + YelpBusiness.review_count + ".  " + 
-                        "Details: " + YelpBusiness.mobile_url, 
+                        "Number of ratings: " + YelpBusiness.review_count + ".", 
                         sTileHeight);
                 }
+
+                YelpClient = null;
             }
             catch (Exception ex)
             {
@@ -598,6 +598,63 @@ namespace WhatzHappn
             }
         }
 
+        private void GetArt(IPInfo ipInfo)
+        {
+            Int16 iArt = 0;
+            try
+            {
+                if (ipInfo.city.ToLower() == "new york")
+                {
+                    string sTileHeight = "whTileHeightSmall";
+                    string[] sLocation = ipInfo.loc.ToString().Split(',');
+                    DateTime dtNow = DateTime.Now;
+                    XmlDocument xArt = new XmlDocument();
+                    xArt.Load("http://www.nycgovparks.org/bigapps/DPR_PublicArt_001.xml");
+
+                    //TODO: Place a marker on the map for each found art.
+                    var Names = xArt.GetElementsByTagName("name");
+                    var Artists = xArt.GetElementsByTagName("artist");
+                    var DateFroms = xArt.GetElementsByTagName("from_date");
+                    var DateTos = xArt.GetElementsByTagName("to_date");
+                    //var Descriptions = xArt.GetElementsByTagName("description");
+                    var Lats = xArt.GetElementsByTagName("lat");
+                    var Longs = xArt.GetElementsByTagName("lng");
+                    double dMiles = 0;
+
+
+                    for (iArt = 0; iArt < Names.Count; iArt++)
+                    {
+                        //Some pieces of data are coming back without Lat and Long.  Ignore those
+                        if (Lats[iArt].InnerText.Trim().Length > 0 && Lats[iArt].InnerText.Trim().Length > 0)
+                        {
+                            //Only if it is currently on display
+                            if (dtNow >= Convert.ToDateTime(DateFroms[iArt].InnerText) && dtNow < Convert.ToDateTime(DateTos[iArt].InnerText))
+                            {
+                                dMiles = distance(
+                                Convert.ToDouble(sLocation[0]),
+                                Convert.ToDouble(sLocation[1]),
+                                Convert.ToDouble(Lats[iArt].InnerText),
+                                Convert.ToDouble(Longs[iArt].InnerText));
+
+
+                                //Only within a certain distance 
+                                if (dMiles < 11)
+                                {
+                                    AddContentTile("Art", Names[iArt].InnerText + " by " + Artists[iArt].InnerText, sTileHeight);
+                                }
+                            }
+                        }
+                    }
+
+                    xArt = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
+
         private void AddContentTile(
             string Icon, 
             string Body, 
@@ -618,13 +675,12 @@ namespace WhatzHappn
                 IconParagraph.Attributes["class"] = "Icon";
                 IconParagraph.ID = "IconParagraph" + NewGuid();
                 IconParagraph.InnerHtml = "<img class=\"HeaderIcon\" src=\"images/" + Icon + ".png\" style=\"border-width:0px;\" />";
-                //TileHeaderDIV.Controls.Add(IconParagraph);
                 WHTileDIV.Controls.Add(IconParagraph);
                 
                 HtmlGenericControl BodyParagraph = new HtmlGenericControl("p");
                 BodyParagraph.Attributes["class"] = "center";
                 BodyParagraph.ID = "BodyParagraph_" + NewGuid();
-                BodyParagraph.InnerText = Body;
+                BodyParagraph.InnerHtml = Body;
                 WHTileDIV.Controls.Add(BodyParagraph);
 
                 this.WHTiles.Controls.Add(WHTileDIV);
@@ -635,9 +691,50 @@ namespace WhatzHappn
             }
         }
 
+
         private string NewGuid()
         {
             return Guid.NewGuid().ToString().Replace("-", "");
+        }
+
+        /// <author>
+        /// http://www.geodatasource.com/developers/c-sharp
+        /// </author>
+        /// <example>
+        /// Console.WriteLine(distance(32.9697, -96.80322, 29.46786, -98.53506, "M"));
+        /// Console.WriteLine(distance(32.9697, -96.80322, 29.46786, -98.53506, "K"));
+        /// Console.WriteLine(distance(32.9697, -96.80322, 29.46786, -98.53506, "N"));
+        /// </example>
+        private double distance(double lat1, double lon1, double lat2, double lon2)
+        {
+            double dReturn = 0;
+
+            try
+            {
+                double theta = lon1 - lon2;
+                double dist = Math.Sin(deg2rad(lat1)) * Math.Sin(deg2rad(lat2)) + Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) * Math.Cos(deg2rad(theta));
+                dist = Math.Acos(dist);
+                dist = rad2deg(dist);
+                dist = dist * 60 * 1.1515;
+      
+                dReturn = dist;
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+
+            return dReturn;
+        }
+
+        private double deg2rad(double deg)
+        {
+            return (deg * Math.PI / 180.0);
+        }
+
+        private double rad2deg(double rad)
+        {
+            return (rad / Math.PI * 180.0);
         }
 
         private void logException(Exception ex)
