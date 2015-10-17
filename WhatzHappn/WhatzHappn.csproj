@@ -82,6 +82,7 @@
     <Content Include="images\bokeh_lights.jpg" />
     <Content Include="images\Line.jpg" />
     <Content Include="images\pattern_background.jpg" />
+    <Content Include="images\Transit.png" />
     <Content Include="images\weather.png" />
     <Content Include="images\WhatzHappn512x512.png" />
     <Content Include="images\wh_logo.png" />

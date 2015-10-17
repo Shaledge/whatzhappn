@@ -252,9 +252,10 @@ namespace WhatzHappn
             try
             {
                 this.WHBody.Attributes.Add("onload", "WHInit()");
-                this.Title = "Whatz Happn: Version 0.014";
+                this.Title = "Whatz Happn: Ver 0.016";
                 string sIPAddress = GetIPAddress();
-                sIPAddress = "71.125.17.29";  //TEMP for development
+                //sIPAddress = "71.125.17.29";  //NYC TEMP for development
+                //sIPAddress = "17.125.217.29";  //Cupertino for development
                 
 
                 if (IsValidIP(sIPAddress) == true)
@@ -264,6 +265,8 @@ namespace WhatzHappn
                     GetMap(ipInfo);
 
                     GetWeather(ipInfo);
+
+                    GetMTA(ipInfo);
 
                     //GetTwitter(ipInfo);
 
@@ -406,7 +409,6 @@ namespace WhatzHappn
         {
             try
             {
-                string sHeaderColor = "TileHeaderBlue";
                 string sTileHeight = "whTileHeightSmall";
                 double dSeconds = 3.0;
                 XPathDocument xDoc = new XPathDocument("http://xml.weather.yahoo.com/forecastrss?p=" + ipInfo.postal);
@@ -425,7 +427,7 @@ namespace WhatzHappn
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    AddContentTile("weather", xNode.InnerXml.ToString(), sHeaderColor, sTileHeight);
+                    AddContentTile("weather", xNode.InnerXml.ToString(), sTileHeight);
                 }
 
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:condition", xNameSpace);
@@ -435,10 +437,10 @@ namespace WhatzHappn
                 {
                     dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile("weather", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sHeaderColor, sTileHeight);
+                    AddContentTile("weather", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sTileHeight);
 
                     dSeconds += 0.05;
-                    AddContentTile("weather", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile("weather", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sTileHeight);
                 }
 
                 //Sunrise and Sunset
@@ -446,9 +448,9 @@ namespace WhatzHappn
                 while(xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    AddContentTile("weather", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile("weather", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sTileHeight);
 
-                    AddContentTile("weather", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile("weather", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sTileHeight);
                 }
 
                 //extended forcast
@@ -457,7 +459,7 @@ namespace WhatzHappn
                 {
                     dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile("weather", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile("weather", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sTileHeight);
                 }
 
                 
@@ -508,7 +510,6 @@ namespace WhatzHappn
         {
             try
             {
-                string sHeaderColor = "TileHeaderBlue";
                 string sTileHeight = "whTileHeightSmall";
                 string[] sLocation = ipInfo.loc.ToString().Split(',');
                 string sURL = "https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=10000&gscoord=" + sLocation[0] + "%7c" + sLocation[1] + "&format=json";
@@ -521,7 +522,7 @@ namespace WhatzHappn
 
                     foreach(GeoSearchResult Article in Articles.Query.GeoSearch)
                     {
-                        AddContentTile("Wikipedia", Article.Title + " " + "http://en.wikipedia.org/?curid=" + Article.PageId, sHeaderColor, sTileHeight);
+                        AddContentTile("Wikipedia", Article.Title + " " + "http://en.wikipedia.org/?curid=" + Article.PageId, sTileHeight);
                     }
                 }
             }
@@ -536,7 +537,6 @@ namespace WhatzHappn
             try
             {
                 //Consumer Key, Consumer Secret, Token, Token Secret	
-                string sHeaderColor = "TileHeaderRed";
                 string sTileHeight = "whTileHeightSmall";
                 string sTerm = "food";
                 string sKeys = GetKeys("Yelp");
@@ -559,7 +559,7 @@ namespace WhatzHappn
                         "Rating: " + YelpBusiness.rated + ".  " + 
                         "Number of ratings: " + YelpBusiness.review_count + ".  " + 
                         "Details: " + YelpBusiness.mobile_url, 
-                        sHeaderColor, sTileHeight);
+                        sTileHeight);
                 }
             }
             catch (Exception ex)
@@ -568,11 +568,39 @@ namespace WhatzHappn
             }
         }
 
+        private void GetMTA(IPInfo ipInfo)
+        {
+            try
+            {
+                //Only New York City viewers should see this data
+                if (ipInfo.city.ToLower() == "new york")
+                {
+                    string sTileHeight = "whTileHeightSmall";
+                    XmlDocument xTransit = new XmlDocument();
+                    xTransit.Load("http://mta.info/status/serviceStatus.txt");
+                    var Lines = xTransit.GetElementsByTagName("name");
+                    var Status = xTransit.GetElementsByTagName("status");
+
+
+                    for (Int16 iTransit = 0; iTransit < Lines.Count; iTransit++)
+                    {
+                        if (Status[iTransit].InnerText.ToLower() != "good service")
+                        {
+                            AddContentTile("Transit", Lines[iTransit].InnerText + ": " + Status[iTransit].InnerText, sTileHeight);    
+                        }
+                    }
+                    xTransit = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
 
         private void AddContentTile(
             string Icon, 
             string Body, 
-            string HeaderColor, 
             string TileHeight)
         {
             try
@@ -585,11 +613,6 @@ namespace WhatzHappn
                 Border3DIV.Attributes["class"] = "border3";
                 Border3DIV.ID = "Border3_" + NewGuid();
                 WHTileDIV.Controls.Add(Border3DIV);
-
-                //HtmlGenericControl TileHeaderDIV = new HtmlGenericControl("div");
-                //TileHeaderDIV.Attributes["class"] = "TileHeader " + HeaderColor;
-                //TileHeaderDIV.ID = "TileHeader_" + NewGuid();
-                //Border3DIV.Controls.Add(TileHeaderDIV);
 
                 HtmlGenericControl IconParagraph = new HtmlGenericControl("p");
                 IconParagraph.Attributes["class"] = "Icon";
