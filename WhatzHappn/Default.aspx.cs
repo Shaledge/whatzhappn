@@ -252,9 +252,9 @@ namespace WhatzHappn
             try
             {
                 this.WHBody.Attributes.Add("onload", "WHInit()");
-                this.Title = "Whatz Happn: Ver 0.016";
+                this.Title = "Whatz Happn: Ver 0.018";
                 string sIPAddress = GetIPAddress();
-                //sIPAddress = "71.125.17.29";  //NYC TEMP for development
+                sIPAddress = "71.125.17.29";  //NYC TEMP for development
                 //sIPAddress = "17.125.217.29";  //Cupertino for development
                 
 
@@ -267,6 +267,8 @@ namespace WhatzHappn
                     GetWeather(ipInfo);
 
                     GetMTA(ipInfo);
+
+                    GetFoursquare(ipInfo);
 
                     //GetTwitter(ipInfo);
 
@@ -399,7 +401,7 @@ namespace WhatzHappn
                 var sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
                 this.googlemap.Attributes.Add("src", sMapSource);
 
-                this.WHCity.InnerHtml = "See whatz happenin in<br />" + ipInfo.city + "!";
+                this.WHCity.InnerHtml = "See whatz happnin in<br />" + ipInfo.city + "!";
             }
             catch (Exception ex)
             {
@@ -438,7 +440,7 @@ namespace WhatzHappn
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    sBody += xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f<br/>";
+                    sBody += xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f and ";
 
                     sBody += xNode.GetAttribute("text", xNameSpace.DefaultNamespace);
                     AddContentTile("weather", sBody, sTileHeight);
@@ -462,6 +464,18 @@ namespace WhatzHappn
                     xNode = xNodes.Current;
                     AddContentTile("weather", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sTileHeight);
                 }
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
+
+        private void GetFoursquare(IPInfo ipInfo)
+        {
+            try
+            {
+                //https://developer.foursquare.com/docs/venues/search
             }
             catch (Exception ex)
             {

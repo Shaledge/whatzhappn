@@ -10,8 +10,6 @@
     <link href='https://fonts.googleapis.com/css?family=Frijole' rel='stylesheet' type='text/css'/>
     <link href="css/WhatzHappn Style.css" rel="stylesheet" type="text/css" />
     <script src="Scripts/WhatzHappn.js" type="text/javascript"></script>
-
-
 </head>
 
 <body runat="server" id="WHBody">
@@ -22,7 +20,7 @@
              
         <div class="textContainer">
             <div class="text animated fadeInLeft">
-                <p id="WHCity" runat="server">See whatz happenin in your city!</p>
+                <p id="WHCity" runat="server">See whatz happnin in your city!</p>
                 
                 <p>Its easy, just click the search button and we will use your current location to pull in the latest tweets, weather and news stories closest to you.</p>
                 
@@ -44,6 +42,5 @@
     </div>
     
     <div class="header" id="WHTiles" runat="server"></div>
-
 </body> 
 </html>

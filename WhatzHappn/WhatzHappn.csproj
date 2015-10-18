@@ -81,6 +81,7 @@
     <Content Include="images\art.png" />
     <Content Include="images\black_loop_background.jpg" />
     <Content Include="images\bokeh_lights.jpg" />
+    <Content Include="images\Foursquare.png" />
     <Content Include="images\Line.jpg" />
     <Content Include="images\pattern_background.jpg" />
     <Content Include="images\Transit.png" />
