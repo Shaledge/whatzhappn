@@ -476,6 +476,29 @@ namespace WhatzHappn
             try
             {
                 //https://developer.foursquare.com/docs/venues/search
+                //https://api.foursquare.com/v2/venues/search
+
+                //EXAMPLE URL
+                //https://api.foursquare.com/v2/venues/search?ll=40.7,-74&oauth_token=ZGUW45PQMIRNL04QMNFXV0BQGDRWKFNPU1L4WC34STBB0P1L&v=20151017
+
+
+                //GETTING:  ex = {"The remote server returned an error: (401) Unauthorized."}
+                //Likely do not have the correct value
+
+
+                //ClientID, ClientSecret
+                string sKeys = GetKeys("Foursquare");
+                string[] KeyList = sKeys.Split(',');
+                string sURL = "https://api.foursquare.com/v2/venues/search?ll=" + ipInfo.loc + "&oauth_token=" + KeyList[1] + "L&v=20151017";
+                XmlDocument xFoursquare = new XmlDocument();
+                xFoursquare.Load(sURL);
+                //var Lines = xFoursquare.GetElementsByTagName("name");
+                //var Status = xFoursquare.GetElementsByTagName("status");
+
+
+
+
+                xFoursquare = null;
             }
             catch (Exception ex)
             {

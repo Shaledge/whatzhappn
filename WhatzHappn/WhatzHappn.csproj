@@ -70,6 +70,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Foursquare.txt" />
     <Content Include="App_Data\Twitter.txt" />
     <Content Include="App_Data\Yelp.txt" />
     <Content Include="App_Readme\Spring.Rest.txt" />
@@ -79,15 +80,11 @@
     <Content Include="Default.aspx" />
     <Content Include="GettingStarted.txt" />
     <Content Include="images\art.png" />
-    <Content Include="images\black_loop_background.jpg" />
-    <Content Include="images\bokeh_lights.jpg" />
     <Content Include="images\Foursquare.png" />
     <Content Include="images\Line.jpg" />
-    <Content Include="images\pattern_background.jpg" />
     <Content Include="images\Transit.png" />
     <Content Include="images\weather.png" />
     <Content Include="images\WhatzHappn512x512.png" />
-    <Content Include="images\wh_logo.png" />
     <Content Include="images\Wikipedia.png" />
     <Content Include="images\Yelp.png" />
     <Content Include="Scripts\WhatzHappn.js" />
