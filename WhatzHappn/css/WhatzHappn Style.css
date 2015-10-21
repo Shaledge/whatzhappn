@@ -1,8 +1,13 @@
 ﻿body {
-	background-color: transparent;
+	background-color: black;
 	margin: 0;
 	padding: 0;
-   background: url("../images/bokeh_lights.jpg") no-repeat center center fixed;
+}
+
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
 }
 
 .header {
@@ -80,7 +85,6 @@ h1 {
     margin: 10px 20px;
     opacity: 0.9;
     background-color: black;
-
 }
 
 /*text font settings*/
@@ -218,15 +222,6 @@ h1 {
     } 
 } 
 
-/*Weather Section styles*/
-
-
-#WeatherContent {
-    opacity: 0.95;
-    height: 830px;
-    padding-top: 80px;
-}
-
 /*monopoly card settings*/
 .whTile {
 	border: thick #000;
@@ -292,24 +287,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
     height: 100px;
 }
 
-
-/*Monopoly card color headers*/
-.TileHeaderBlue {
-    background-color: blue;
-    border-radius: 7px;
-}
-
-.TileHeaderGreen {
-    background-color: green;
-    border-radius: 7px;
-}
-
-.TileHeaderRed {
-
-    background-color: red;
-    border-radius: 7px;
-}
-
 .border3 {
 	border: thin #000;
 	border-style: groove;
@@ -318,15 +295,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
 
 .Icon {
 	position: relative;
-    bottom: 30px;
+    bottom: 50px;
     left: 110px;
-   
 }
 
 .HeaderIcon {
     width: 128px;
     height: 128px;
-
 }
 
 .center {
@@ -334,6 +309,3 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
     font-family: 'Piedra', cursive;
     font-size: 19px;
 }
-
-
-

@@ -251,9 +251,11 @@ namespace WhatzHappn
         {
             try
             {
-                this.Title = "Whatz Happn: Version 0.008";
+                this.WHBody.Attributes.Add("onload", "WHInit()");
+                this.Title = "Whatz Happn: Ver 0.018";
                 string sIPAddress = GetIPAddress();
-                sIPAddress = "71.125.17.29";  //TEMP for development
+                sIPAddress = "71.125.17.29";  //NYC TEMP for development
+                //sIPAddress = "17.125.217.29";  //Cupertino for development
                 
 
                 if (IsValidIP(sIPAddress) == true)
@@ -264,11 +266,17 @@ namespace WhatzHappn
 
                     GetWeather(ipInfo);
 
-                    GetTwitter(ipInfo);
+                    GetMTA(ipInfo);
+
+                    GetFoursquare(ipInfo);
+
+                    //GetTwitter(ipInfo);
 
                     GetWikipedia(ipInfo);
 
                     GetYelp(ipInfo);
+
+                    GetArt(ipInfo);
                 }
                 else
                 {
@@ -390,10 +398,10 @@ namespace WhatzHappn
             try
             {
                 string[] sLocation = ipInfo.loc.ToString().Split(',');
-                string sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
+                var sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
                 this.googlemap.Attributes.Add("src", sMapSource);
 
-                this.WHCity.InnerText = "See whatz happenin in " + ipInfo.city + "!";
+                this.WHCity.InnerHtml = "See whatz happnin in<br />" + ipInfo.city + "!";
             }
             catch (Exception ex)
             {
@@ -405,18 +413,13 @@ namespace WhatzHappn
         {
             try
             {
-                string sHeaderColor = "TileHeaderBlue";
                 string sTileHeight = "whTileHeightSmall";
-                double dSeconds = 3.0;
                 XPathDocument xDoc = new XPathDocument("http://xml.weather.yahoo.com/forecastrss?p=" + ipInfo.postal);
                 XPathNavigator xNavigator;
                 XmlNamespaceManager xNameSpace;
                 XPathNodeIterator xNodes;
                 XPathNavigator xNode;
-                
-                Image WeatherIcon = new Image();
-                WeatherIcon.CssClass = "HeaderIcon";
-                WeatherIcon.ImageUrl = "images/" + "weather" + ".png";
+                string sBody = "";
                 
 
                 xNavigator = xDoc.CreateNavigator();
@@ -428,8 +431,7 @@ namespace WhatzHappn
                 while (xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-
-                    AddContentTile(WeatherIcon, "", xNode.InnerXml.ToString(), sHeaderColor, sTileHeight);
+                    sBody = xNode.InnerXml.ToString() + "<br/>";
                 }
 
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:condition", xNameSpace);
@@ -437,12 +439,11 @@ namespace WhatzHappn
                 //Basic: Temp and Condition
                 while (xNodes.MoveNext())
                 {
-                    dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile(WeatherIcon, "", xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f", sHeaderColor, sTileHeight);
+                    sBody += xNode.GetAttribute("temp", xNameSpace.DefaultNamespace) + "f and ";
 
-                    dSeconds += 0.05;
-                    AddContentTile(WeatherIcon, "", xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    sBody += xNode.GetAttribute("text", xNameSpace.DefaultNamespace);
+                    AddContentTile("weather", sBody, sTileHeight);
                 }
 
                 //Sunrise and Sunset
@@ -450,21 +451,31 @@ namespace WhatzHappn
                 while(xNodes.MoveNext())
                 {
                     xNode = xNodes.Current;
-                    AddContentTile(WeatherIcon, "", "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
-
-                    AddContentTile(WeatherIcon, "", "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile("weather", 
+                        "Sunrise: " + xNode.GetAttribute("sunrise", xNameSpace.DefaultNamespace) + "<br/>" +
+                        "Sunset: " + xNode.GetAttribute("sunset", xNameSpace.DefaultNamespace), 
+                        sTileHeight);
                 }
 
                 //extended forcast
                 xNodes = xNavigator.Select("/rss/channel/item/yweather:forecast", xNameSpace);
                 while (xNodes.MoveNext())
                 {
-                    dSeconds += 0.05;
                     xNode = xNodes.Current;
-                    AddContentTile(WeatherIcon, "", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sHeaderColor, sTileHeight);
+                    AddContentTile("weather", xNode.GetAttribute("day", xNameSpace.DefaultNamespace) + ": " + xNode.GetAttribute("text", xNameSpace.DefaultNamespace), sTileHeight);
                 }
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
 
-                
+        private void GetFoursquare(IPInfo ipInfo)
+        {
+            try
+            {
+                //https://developer.foursquare.com/docs/venues/search
             }
             catch (Exception ex)
             {
@@ -501,15 +512,6 @@ namespace WhatzHappn
                 WeatherIcon.CssClass = "HeaderIcon";
                 WeatherIcon.ImageUrl = "images/" + "twitter" + ".png";
 
-                HtmlGenericControl SectionDIV = new HtmlGenericControl("div");
-                SectionDIV.Attributes["class"] = "header";
-                SectionDIV.ID = "TwitterContent";
-
-
-
-
-                //Add everything to the body
-                this.WHBody.Controls.Add(SectionDIV);
             }
             catch (Exception ex)
             {
@@ -521,7 +523,6 @@ namespace WhatzHappn
         {
             try
             {
-                string sHeaderColor = "TileHeaderBlue";
                 string sTileHeight = "whTileHeightSmall";
                 string[] sLocation = ipInfo.loc.ToString().Split(',');
                 string sURL = "https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=10000&gscoord=" + sLocation[0] + "%7c" + sLocation[1] + "&format=json";
@@ -534,7 +535,7 @@ namespace WhatzHappn
 
                     foreach(GeoSearchResult Article in Articles.Query.GeoSearch)
                     {
-                        AddContentTile(null, Article.Title, "http://en.wikipedia.org/?curid=" + Article.PageId, sHeaderColor, sTileHeight);
+                        AddContentTile("Wikipedia", "<a href=" + "http://en.wikipedia.org/?curid=" + Article.PageId + ">" + Article.Title + "</a>", sTileHeight);
                     }
                 }
             }
@@ -549,7 +550,6 @@ namespace WhatzHappn
             try
             {
                 //Consumer Key, Consumer Secret, Token, Token Secret	
-                string sHeaderColor = "TileHeaderRed";
                 string sTileHeight = "whTileHeightSmall";
                 string sTerm = "food";
                 string sKeys = GetKeys("Yelp");
@@ -567,11 +567,43 @@ namespace WhatzHappn
                 {
                     var YelpBusiness = (YelpAPIClient.Business)Business.ToObject(typeof(YelpAPIClient.Business));
 
-                    AddContentTile(null, YelpBusiness.name,
+                    AddContentTile("Yelp", 
+                        "<a href=" + YelpBusiness.mobile_url + "/>" + YelpBusiness.name + "</a><br/>" +
                         "Rating: " + YelpBusiness.rated + ".  " + 
-                        "Number of ratings: " + YelpBusiness.review_count + ".  " + 
-                        "Details: " + YelpBusiness.mobile_url, 
-                        sHeaderColor, sTileHeight);
+                        "Number of ratings: " + YelpBusiness.review_count + ".", 
+                        sTileHeight);
+                }
+
+                YelpClient = null;
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
+
+        private void GetMTA(IPInfo ipInfo)
+        {
+            try
+            {
+                //Only New York City viewers should see this data
+                if (ipInfo.city.ToLower() == "new york")
+                {
+                    string sTileHeight = "whTileHeightSmall";
+                    XmlDocument xTransit = new XmlDocument();
+                    xTransit.Load("http://mta.info/status/serviceStatus.txt");
+                    var Lines = xTransit.GetElementsByTagName("name");
+                    var Status = xTransit.GetElementsByTagName("status");
+
+
+                    for (Int16 iTransit = 0; iTransit < Lines.Count; iTransit++)
+                    {
+                        if (Status[iTransit].InnerText.ToLower() != "good service")
+                        {
+                            AddContentTile("Transit", Lines[iTransit].InnerText + ": " + Status[iTransit].InnerText, sTileHeight);    
+                        }
+                    }
+                    xTransit = null;
                 }
             }
             catch (Exception ex)
@@ -580,12 +612,66 @@ namespace WhatzHappn
             }
         }
 
+        private void GetArt(IPInfo ipInfo)
+        {
+            Int16 iArt = 0;
+            try
+            {
+                if (ipInfo.city.ToLower() == "new york")
+                {
+                    string sTileHeight = "whTileHeightSmall";
+                    string[] sLocation = ipInfo.loc.ToString().Split(',');
+                    DateTime dtNow = DateTime.Now;
+                    XmlDocument xArt = new XmlDocument();
+                    xArt.Load("http://www.nycgovparks.org/bigapps/DPR_PublicArt_001.xml");
+
+                    //TODO: Place a marker on the map for each found art.
+                    var Names = xArt.GetElementsByTagName("name");
+                    var Artists = xArt.GetElementsByTagName("artist");
+                    var DateFroms = xArt.GetElementsByTagName("from_date");
+                    var DateTos = xArt.GetElementsByTagName("to_date");
+                    //var Descriptions = xArt.GetElementsByTagName("description");
+                    var Lats = xArt.GetElementsByTagName("lat");
+                    var Longs = xArt.GetElementsByTagName("lng");
+                    double dMiles = 0;
+
+
+                    for (iArt = 0; iArt < Names.Count; iArt++)
+                    {
+                        //Some pieces of data are coming back without Lat and Long.  Ignore those
+                        if (Lats[iArt].InnerText.Trim().Length > 0 && Lats[iArt].InnerText.Trim().Length > 0)
+                        {
+                            //Only if it is currently on display
+                            if (dtNow >= Convert.ToDateTime(DateFroms[iArt].InnerText) && dtNow < Convert.ToDateTime(DateTos[iArt].InnerText))
+                            {
+                                dMiles = distance(
+                                Convert.ToDouble(sLocation[0]),
+                                Convert.ToDouble(sLocation[1]),
+                                Convert.ToDouble(Lats[iArt].InnerText),
+                                Convert.ToDouble(Longs[iArt].InnerText));
+
+
+                                //Only within a certain distance 
+                                if (dMiles < 11)
+                                {
+                                    AddContentTile("Art", Names[iArt].InnerText + " by " + Artists[iArt].InnerText, sTileHeight);
+                                }
+                            }
+                        }
+                    }
+
+                    xArt = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+        }
 
         private void AddContentTile(
-            Image Icon, 
-            string Title, 
+            string Icon, 
             string Body, 
-            string HeaderColor, 
             string TileHeight)
         {
             try
@@ -597,39 +683,18 @@ namespace WhatzHappn
                 HtmlGenericControl Border3DIV = new HtmlGenericControl("div");
                 Border3DIV.Attributes["class"] = "border3";
                 Border3DIV.ID = "Border3_" + NewGuid();
-
                 WHTileDIV.Controls.Add(Border3DIV);
 
-                HtmlGenericControl Border2DIV = new HtmlGenericControl("div");
-                Border2DIV.Attributes["class"] = "TileHeader " + HeaderColor;
-                Border2DIV.ID = "TileHeader_" + NewGuid();
-
-                Border3DIV.Controls.Add(Border2DIV);
-
-                if (Icon != null)
-                {
-                    HtmlGenericControl IconParagraph = new HtmlGenericControl("p");
-                    IconParagraph.Attributes["class"] = "Icon";
-                    IconParagraph.ID = "IconParagraph" + NewGuid();
-
-                    IconParagraph.Controls.Add(Icon);
-                    Border2DIV.Controls.Add(IconParagraph);
-                }
-                else
-                {
-                    HtmlGenericControl TitleParagraph = new HtmlGenericControl("p");
-                    TitleParagraph.Attributes["class"] = "center";
-                    TitleParagraph.ID = "IconParagraph" + NewGuid();
-                    TitleParagraph.InnerText = Title;
-
-                    Border2DIV.Controls.Add(TitleParagraph);
-                }
-
+                HtmlGenericControl IconParagraph = new HtmlGenericControl("p");
+                IconParagraph.Attributes["class"] = "Icon";
+                IconParagraph.ID = "IconParagraph" + NewGuid();
+                IconParagraph.InnerHtml = "<img class=\"HeaderIcon\" src=\"images/" + Icon + ".png\" style=\"border-width:0px;\" />";
+                WHTileDIV.Controls.Add(IconParagraph);
+                
                 HtmlGenericControl BodyParagraph = new HtmlGenericControl("p");
                 BodyParagraph.Attributes["class"] = "center";
                 BodyParagraph.ID = "BodyParagraph_" + NewGuid();
-                BodyParagraph.InnerText = Body;
-
+                BodyParagraph.InnerHtml = Body;
                 WHTileDIV.Controls.Add(BodyParagraph);
 
                 this.WHTiles.Controls.Add(WHTileDIV);
@@ -640,9 +705,50 @@ namespace WhatzHappn
             }
         }
 
+
         private string NewGuid()
         {
             return Guid.NewGuid().ToString().Replace("-", "");
+        }
+
+        /// <author>
+        /// http://www.geodatasource.com/developers/c-sharp
+        /// </author>
+        /// <example>
+        /// Console.WriteLine(distance(32.9697, -96.80322, 29.46786, -98.53506, "M"));
+        /// Console.WriteLine(distance(32.9697, -96.80322, 29.46786, -98.53506, "K"));
+        /// Console.WriteLine(distance(32.9697, -96.80322, 29.46786, -98.53506, "N"));
+        /// </example>
+        private double distance(double lat1, double lon1, double lat2, double lon2)
+        {
+            double dReturn = 0;
+
+            try
+            {
+                double theta = lon1 - lon2;
+                double dist = Math.Sin(deg2rad(lat1)) * Math.Sin(deg2rad(lat2)) + Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) * Math.Cos(deg2rad(theta));
+                dist = Math.Acos(dist);
+                dist = rad2deg(dist);
+                dist = dist * 60 * 1.1515;
+      
+                dReturn = dist;
+            }
+            catch (Exception ex)
+            {
+                logException(ex);
+            }
+
+            return dReturn;
+        }
+
+        private double deg2rad(double deg)
+        {
+            return (deg * Math.PI / 180.0);
+        }
+
+        private double rad2deg(double rad)
+        {
+            return (rad / Math.PI * 180.0);
         }
 
         private void logException(Exception ex)
