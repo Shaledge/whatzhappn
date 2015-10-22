@@ -254,7 +254,7 @@ namespace WhatzHappn
                 this.WHBody.Attributes.Add("onload", "WHInit()");
                 this.Title = "Whatz Happn: Ver 0.018";
                 string sIPAddress = GetIPAddress();
-                sIPAddress = "71.125.17.29";  //NYC TEMP for development
+                //sIPAddress = "71.125.17.29";  //NYC TEMP for development
                 //sIPAddress = "17.125.217.29";  //Cupertino for development
                 
 
@@ -268,7 +268,7 @@ namespace WhatzHappn
 
                     GetMTA(ipInfo);
 
-                    GetFoursquare(ipInfo);
+                    //GetFoursquare(ipInfo);
 
                     //GetTwitter(ipInfo);
 
@@ -401,7 +401,7 @@ namespace WhatzHappn
                 var sMapSource = "http://maps.google.com?q=" + sLocation[0] + "," + sLocation[1] + "&z=15&output=embed";
                 this.googlemap.Attributes.Add("src", sMapSource);
 
-                this.WHCity.InnerHtml = "See whatz happnin in<br />" + ipInfo.city + "!";
+                this.WHCity.InnerHtml = "See whatz happn in<br />" + ipInfo.city + "!";
             }
             catch (Exception ex)
             {
@@ -703,11 +703,6 @@ namespace WhatzHappn
                 WHTileDIV.Attributes["class"] = "whTile animated fadeIn " + TileHeight;
                 WHTileDIV.ID = "WHTile_" + NewGuid();
 
-                HtmlGenericControl Border3DIV = new HtmlGenericControl("div");
-                Border3DIV.Attributes["class"] = "border3";
-                Border3DIV.ID = "Border3_" + NewGuid();
-                WHTileDIV.Controls.Add(Border3DIV);
-
                 HtmlGenericControl IconParagraph = new HtmlGenericControl("p");
                 IconParagraph.Attributes["class"] = "Icon";
                 IconParagraph.ID = "IconParagraph" + NewGuid();
@@ -715,7 +710,7 @@ namespace WhatzHappn
                 WHTileDIV.Controls.Add(IconParagraph);
                 
                 HtmlGenericControl BodyParagraph = new HtmlGenericControl("p");
-                BodyParagraph.Attributes["class"] = "center";
+                BodyParagraph.Attributes["class"] = "whTileContent";
                 BodyParagraph.ID = "BodyParagraph_" + NewGuid();
                 BodyParagraph.InnerHtml = Body;
                 WHTileDIV.Controls.Add(BodyParagraph);
@@ -727,7 +722,6 @@ namespace WhatzHappn
                 logException(ex);
             }
         }
-
 
         private string NewGuid()
         {
