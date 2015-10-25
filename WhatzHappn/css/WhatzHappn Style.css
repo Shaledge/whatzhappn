@@ -304,7 +304,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
     height: 128px;
 }
 
-.center {
+.whTileContent {
 	text-align: center;
     font-family: 'Piedra', cursive;
     font-size: 19px;
