@@ -32,6 +32,23 @@
 
         <img alt="logo" class="whlogo fadeInLeft" src="images/WhatzHappn512x512.png" />
 
+        <div class="respviewButtons">
+
+        <a class="btn" href="#"> <p class="navText">&nbsp;ART </p><img class="art" src="images/art.png" /> </a>
+
+        <a class="btn" href="#"> <p class="navText">&nbsp;4 SQUARE </p> <img class="fourSquare" src="images/Foursquare.png" /> </a>
+
+        <a class="btn" href="#"> <p class="navText">&nbsp;TRANSIT</p> <img class="transit" src="images/Transit.png" /> </a>
+
+        <a class="btn" href="#"> <p class="navText">&nbsp;WEATHER </p> <img class="weather" src="images/weather.png" /> </a>
+
+       <a class="btn" href="#">  <p class="navText">&nbsp;WIKI </p> <img class="wiki" src="images/Wikipedia.png" /> </a>
+
+        <a class="btn" href="#"> <p class="navText">&nbsp;YELP </p> <img class="yelp" src="images/Yelp.png" /> </a>
+        
+        </div>
+   
+
         <div class="signature fadeInRight">
         <p>Created by Rose and Wallace 2015</p>
         </div>

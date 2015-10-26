@@ -186,6 +186,11 @@ h1 {
     animation-name: fadeInRight; 
 }
 
+.yelp, .transit, .weather, .wiki, .fourSquare, .art {
+    display: none;
+
+}
+
 
 /*Rose and Wallace*/
 .signature {
@@ -308,4 +313,192 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
 	text-align: center;
     font-family: 'Piedra', cursive;
     font-size: 19px;
+}
+
+ .navText {
+        display: none;
+      
+    }
+
+@media only screen and (max-width: 640px) {
+
+    h1 {
+	    text-align:right;
+        padding-right: 50px;
+	    font-family: 'Frijole', cursive;
+	    font-size: 26px;
+	    color: white;
+	    letter-spacing: 8px;
+	    text-transform: uppercase;
+    } 
+
+    #googlemap {
+        width: 550px;
+        height: 230px;
+        filter: sepia(1);
+	    filter: grayscale(1);
+	    -webkit-filter: grayscale(1);
+	    -moz-filter: grayscale(1);
+	    -o-filter: grayscale(1);
+	    -ms-filter: grayscale(1);
+    }
+
+
+    /*google map div settings*/
+    .map {
+        width: 300px;
+        height: 200px;
+        position: absolute;
+        top: 120px;
+        left: 30px;
+     }
+
+    .textContainer {
+        padding: 5px 5px 5px 5px;
+        height: 330px;
+        margin: 10px 20px;
+        opacity: 0.9;
+        background-color: black;
+    }
+
+    /*text font settings*/
+    .text {
+        width: 500px;
+        padding-left: 15px;
+        padding-top: 250px;
+        text-align: left;
+        font-family: 'Frijole', cursive;
+        font-size: 13px;
+        line-height: 18px;
+        color: #FFF;
+        letter-spacing: 1px;
+    }
+
+    /*line settings*/
+    #line {
+       display: none;
+   }
+
+    
+    .signature {
+        display: none;
+        
+    }
+     
+    .whlogo {
+        position: absolute;
+        top: 10px;
+        left: 70px;
+        width: 100px;
+     
+    }
+
+    #WHCity {
+        font-size: 18px;
+        letter-spacing: 2px;
+        text-align: center;
+
+    }
+
+    .respviewButtons {
+        padding-top: 100px;
+        padding-left: 40px;
+        
+        height: 350px;            
+     
+    }
+
+    .yelp, .transit, .weather, .wiki, .fourSquare, .art {
+        display: block;
+        max-width: 60px;
+        float: left;
+        border-style: solid;
+        border-width: 3px;
+        border-color: red;
+        border-radius: 15px;
+        margin: 5px;
+        padding: 10px;
+        background-color: grey;
+        opacity: 0.9;
+
+    }
+
+    .navText {
+        display: inline-block;
+        margin-top: 40px;
+        font-family: 'Times New Roman', Times, serif;
+        
+        font-size: 12px;
+
+
+    }
+
+    a.btn {
+	    display: inline-block;
+	    padding: 5px 5px 5px 5px;
+	    text-decoration: none;
+	    letter-spacing: 1px;
+	    margin: 0px 50px 20px 0px;
+	    color: #fff;
+	    width: 200px;
+	    transition: all .5s;
+	    position: relative;
+	    overflow: hidden;
+	    line-height: 26px;
+}
+    a.btn:hover {
+	    width: 240px;
+	    background-color: tan;
+        border: 1px solid rgba(255,255,255,.5);
+	    padding-left: 20px;
+	    border-top-right-radius: 10px;
+	    border-bottom-right-radius: 10px;
+	    letter-spacing: 4px;
+	    font-size: 1.1em;
+	    text-shadow: 0px 3px 2px rgba(255,255,255,.5);
+}
+    a.btn::after {
+	    content: '';
+	    display: block;
+	    width: 10px;
+	    height: 110px;
+	    background-color: red;
+	    position: absolute;
+	    top: 0px;
+	    left: -10px;
+}
+    a.btn:hover::after {
+	    left: 0px;
+}
+    
+}
+
+@media only screen and (max-width: 480px) {
+
+     h1 {
+	    text-align:right;
+        padding-right: 10px;
+	    font-family: 'Frijole', cursive;
+	    font-size: 18px;
+	    color: white;
+	    letter-spacing: 4px;
+	    text-transform: uppercase;
+    } 
+
+    #googlemap {
+        width: 400px;
+        height: 190px;
+       
+    }
+
+
+    /*google map div settings*/
+    .map {
+        width: 300px;
+        height: 200px;
+        position: absolute;
+        top: 120px;
+        left: 30px;
+     }
+
 }
