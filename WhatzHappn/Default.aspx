@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
     <title>What'z Happn</title>
     <link href='https://fonts.googleapis.com/css?family=Piedra|Rye|Sarina|Jacques+Francois+Shadow' rel='stylesheet' type='text/css' />
     <link href='https://fonts.googleapis.com/css?family=Frijole' rel='stylesheet' type='text/css'/>
@@ -34,17 +35,18 @@
 
         <div class="respviewButtons">
 
-        <a class="btn" href="#"> <p class="navText">&nbsp;ART </p><img class="art" src="images/art.png" /> </a>
+        <a class="btn fadeInLeft"> <p class="navText">&nbsp;ART </p><img class="art" src="images/art.png" /> </a>
 
-        <a class="btn" href="#"> <p class="navText">&nbsp;4 SQUARE </p> <img class="fourSquare" src="images/Foursquare.png" /> </a>
+        <a class="btn fadeInLeft"> <p class="navText">&nbsp;4 SQUARE </p> <img class="fourSquare" src="images/Foursquare.png" /> </a>
 
-        <a class="btn" href="#"> <p class="navText">&nbsp;TRANSIT</p> <img class="transit" src="images/Transit.png" /> </a>
+        <a class="btn fadeInLeft"> <p class="navText">&nbsp;WIKI </p> <img class="wiki" src="images/Wikipedia.png" /> </a>
 
-        <a class="btn" href="#"> <p class="navText">&nbsp;WEATHER </p> <img class="weather" src="images/weather.png" /> </a>
+        <a class="btn fadeInLeft"> <p class="navText">&nbsp;YELP </p> <img class="yelp" src="images/Yelp.png" /> </a>        
+            
+        <a class="btn fadeInLeft"> <p class="navText">&nbsp;TRANSIT</p> <img class="transit" src="images/Transit.png" /> </a>
 
-       <a class="btn" href="#">  <p class="navText">&nbsp;WIKI </p> <img class="wiki" src="images/Wikipedia.png" /> </a>
+        <a class="btn fadeInLeft"> <p class="navText">&nbsp;WEATHER </p> <img class="weather" src="images/weather.png" /> </a>
 
-        <a class="btn" href="#"> <p class="navText">&nbsp;YELP </p> <img class="yelp" src="images/Yelp.png" /> </a>
         
         </div>
    

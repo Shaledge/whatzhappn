@@ -320,7 +320,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
       
     }
 
-@media only screen and (max-width: 640px) {
+@media all and (max-width: 680px) and (min-width: 481px)  {
 
     h1 {
 	    text-align:right;
@@ -333,7 +333,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
     } 
 
     #googlemap {
-        width: 550px;
+        width: 500px;
         height: 230px;
         filter: sepia(1);
 	    filter: grayscale(1);
@@ -346,12 +346,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
 
     /*google map div settings*/
     .map {
-        width: 300px;
-        height: 200px;
+        width: 500px;
         position: absolute;
         top: 120px;
         left: 30px;
      }
+
+    p {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: bold;
+
+    }
 
     .textContainer {
         padding: 5px 5px 5px 5px;
@@ -372,6 +379,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
         line-height: 18px;
         color: #FFF;
         letter-spacing: 1px;
+    }
+
+    .text p:last-child {
+        display: none;
     }
 
     /*line settings*/
@@ -397,14 +408,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
         font-size: 18px;
         letter-spacing: 2px;
         text-align: center;
+        color: orange;
+        font-family: 'Frijole', cursive;
 
     }
 
     .respviewButtons {
-        padding-top: 100px;
-        padding-left: 40px;
-        
-        height: 350px;            
+        margin-top: 50px;
+        margin-left: 25px;
+        margin-right: 15px;
+        padding-left: 5px;
+        height: 375px; 
+                 
      
     }
 
@@ -427,8 +442,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
         display: inline-block;
         margin-top: 40px;
         font-family: 'Times New Roman', Times, serif;
-        
-        font-size: 12px;
+        font-weight: bold;
+        font-size: 14px;
 
 
     }
@@ -445,9 +460,43 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
 	    position: relative;
 	    overflow: hidden;
 	    line-height: 26px;
+        cursor: not-allowed;
+         -webkit-animation-duration: 2s; 
+        animation-duration: 2s; 
+        -webkit-animation-fill-mode: both; 
+        animation-fill-mode: both; 
+        -webkit-animation-timing-function: linear; 
+        animation-timing-function: linear; 
+} 
+
+@-webkit-keyframes fadeInLeft { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateX(-20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateX(0); 
+    } 
+} 
+@keyframes fadeInLeft { 
+    0% { 
+        opacity: 0; 
+        transform: translateX(-20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateX(0); 
+    } 
+} 
+.fadeInLeft { 
+    -webkit-animation-name: fadeInLeft; 
+    animation-name: fadeInLeft; 
+}
+
 }
     a.btn:hover {
-	    width: 240px;
+	    width: 230px;
 	    background-color: tan;
         border: 1px solid rgba(255,255,255,.5);
 	    padding-left: 20px;
@@ -471,34 +520,39 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', end
 	    left: 0px;
 }
     
-}
 
-@media only screen and (max-width: 480px) {
+
+@media all and (max-width: 480px) and (min-width: 320px) {
 
      h1 {
 	    text-align:right;
         padding-right: 10px;
 	    font-family: 'Frijole', cursive;
 	    font-size: 18px;
-	    color: white;
+	    color: yellow;
 	    letter-spacing: 4px;
 	    text-transform: uppercase;
     } 
 
     #googlemap {
-        width: 400px;
-        height: 190px;
-       
+        width: 100px;
+        height: 100px;
     }
 
 
     /*google map div settings*/
     .map {
-        width: 300px;
-        height: 200px;
-        position: absolute;
-        top: 120px;
-        left: 30px;
+        width: 100px;
+        height: 100px;
+       
      }
+
+    .textContainer {
+        padding: 5px 5px 5px 5px;
+        height: 330px;
+        margin: 10px 20px;
+        opacity: 0.9;
+        background-color: blue;
+    }
 
 }

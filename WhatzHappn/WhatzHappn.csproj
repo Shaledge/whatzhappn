@@ -82,7 +82,6 @@
     <Content Include="images\art.png" />
     <Content Include="images\Foursquare.png" />
     <Content Include="images\Line.jpg" />
-    <Content Include="images\tablet.png" />
     <Content Include="images\Transit.png" />
     <Content Include="images\weather.png" />
     <Content Include="images\WhatzHappn512x512.png" />
